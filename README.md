@@ -3,3 +3,4 @@ An exploration of using Monte Carlo Markov Chain (MCMC) methods to break substit
 
 ### Sources
 [Blog post by Jack J on Medium](https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae)
+[Author's Github repository](https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos)
