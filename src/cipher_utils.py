@@ -1,6 +1,6 @@
 import random
 
-ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789 ,.?!:;"
+from src import ALPHABET
 
 def create_encrytpion_dict(alphabet=ALPHABET):
     """
