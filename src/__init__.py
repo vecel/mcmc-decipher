@@ -1,1 +1,0 @@
-ALPHABET = "abcdefghijklmnopqrstuvwxyz0123456789 ,.?!:;"
