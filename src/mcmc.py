@@ -104,3 +104,30 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, alphabet: str = 
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
             
     return current_dict, best_score, best_text
+
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, alphabet: str = ALPHABET):
+    # TODO add docstring
+    all_scores = []
+    all_samples = []
+    for i in range(attempts):
+        _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, alphabet)
+        all_scores.append(scores)
+        all_samples.append(samples[-1])
+    return all_samples, all_scores
+
+def get_best_solution(all_samples: list[str], all_scores: list[list]):
+    # TODO docstring
+    max_score = float("-inf")
+    max_idx = -1
+    for i in range(len(all_samples)):
+        score = all_scores[i][-1]
+        if score > max_score:
+            max_score = score
+            max_idx = i
+    return max_idx, max_score
+
+def eval_solutions(text: str, all_solutions: list[str]):
+    # TODO docstring
+    correct = all_solutions.count(text)
+    total = len(all_solutions)
+    return correct / total
