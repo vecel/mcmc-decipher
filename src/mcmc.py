@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 from src.constants import ALPHABET
-from src.cipher_utils import create_encrytpion_dict, decode
+from src.cipher_utils import decode, create_encrytpion_dict
 
 def score_likelihood(decoded_text: str, perc_dict: dict):
     """
@@ -55,7 +55,7 @@ def eval_proposal(proposed_score: float, current_score: float):
     ratio = math.exp(diff)
     return ratio >= 1 or ratio > np.random.uniform(0,1)
     
-def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, alphabet: str = ALPHABET, verbose: bool = False):
+def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict = None, alphabet: str = ALPHABET, verbose: bool = False):
     """
     Attempts to decode a substitution cipher using a Markov Chain Monte Carlo (MCMC) approach.
 
@@ -69,6 +69,8 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, alphabet: str = 
         perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
                           typically created from a language corpus using `create_perc_dict()`.
         iters (int): Number of MCMC iterations to run.
+        encryption_dict (dict): An encryption dictionary used as the starting point for the
+                                algorithm. If not specified the random one will be used.
         alphabet (str): The character set used in the cipher and language model.
                         Defaults to the global `ALPHABET`.
         verbose (bool): If True, prints progress updates every 1000 iterations.
@@ -82,7 +84,11 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, alphabet: str = 
     best_score = []
     best_text = []
     
-    current_dict = create_encrytpion_dict(alphabet)
+    if encryption_dict is None:
+        current_dict = create_encrytpion_dict(alphabet)
+    else:
+        current_dict = encryption_dict
+
     current_decrypted = decode(encoded_text, current_dict)
     current_score = score_likelihood(current_decrypted, perc_dict)
     
@@ -105,12 +111,12 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, alphabet: str = 
             
     return current_dict, best_score, best_text
 
-def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, alphabet: str = ALPHABET):
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict = None, alphabet: str = ALPHABET):
     # TODO add docstring
     all_scores = []
     all_samples = []
     for i in range(attempts):
-        _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, alphabet)
+        _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
         all_scores.append(scores)
         all_samples.append(samples[-1])
     return all_samples, all_scores
