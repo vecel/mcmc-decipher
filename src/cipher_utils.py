@@ -39,7 +39,7 @@ def encode(text: str, encryption_dict: str):
     new_text = "".join(text_list)
     return new_text
 
-def decode(encoded_text: str, encryption_dict: str):
+def decode(encoded_text: str, encryption_dict: dict):
     """
     Decodes a text encoded with a substitution cipher.
 

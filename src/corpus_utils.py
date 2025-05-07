@@ -63,3 +63,31 @@ def create_perc_dict(corpus: str, alphabet: str = ALPHABET):
             letter_perc = (count_dict[i][j] + 1) / total_count
             perc_dict[i][j] = np.log(letter_perc)
     return perc_dict
+
+def get_letter_frequencies(text: str, alphabet: str = ALPHABET):
+    """
+    Calculates the normalized frequency of each letter in a given text and returns them sorted by frequency.
+
+    This function counts how often each character from the specified alphabet appears in the input text,
+    normalizes the counts to get frequencies (as proportions of the total text length),
+    and returns the letters and their frequencies sorted from most to least frequent.
+
+    Args:
+        text (str): The input string from which to calculate letter frequencies.
+        alphabet (str, optional): A string containing valid characters to count.
+                                  Defaults to the global `ALPHABET`.
+
+    Returns:
+        tuple:
+            - letters (tuple): A tuple of letters sorted in descending order of frequency.
+            - frequencies (tuple): A tuple of corresponding normalized frequencies (floats).
+    """
+    letter_freqency = {letter: 0 for letter in ALPHABET}
+    for letter in text:
+        if letter in ALPHABET:
+            letter_freqency[letter] += 1
+
+    letter_freqency = {key: value / len(text) for key, value in letter_freqency.items()}
+    sorted_letters = sorted(letter_freqency.items(), key=lambda item: item[1], reverse=True)
+    letters, frequencies = zip(*sorted_letters)
+    return letters, frequencies
