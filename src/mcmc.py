@@ -112,7 +112,25 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
     return current_dict, best_score, best_text
 
 def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict = None, alphabet: str = ALPHABET):
-    # TODO add docstring
+    """
+    Perform multiple decoding attempts using a Markov Chain Monte Carlo (MCMC) method.
+
+    Args:
+        attempts (int): The number of independent decoding attempts to perform.
+        encoded_text (str): The ciphertext to be decoded.
+        perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
+                          typically created from a language corpus using `create_perc_dict()`.
+        iters (int): The number of iterations to run the MCMC algorithm.
+        encryption_dict (dict): An encryption dictionary used as the starting point for the
+                                algorithm. If not specified the random one will be used.
+        alphabet (str, optional): The alphabet used for encoding/decoding. Defaults to ALPHABET.
+
+    Returns:
+        tuple:
+            - all_samples (list): List of the final decoded samples from each attempt.
+            - all_scores (list): List of lists of the scores (scores recorded every 500 itertions)
+                                 associated with each decoding attempt.
+    """
     all_scores = []
     all_samples = []
     for i in range(attempts):
@@ -133,7 +151,17 @@ def get_best_solution(all_samples: list[str], all_scores: list[list]):
     return max_idx, max_score
 
 def eval_solutions(text: str, all_solutions: list[str]):
-    # TODO docstring
+    """
+    Evaluate the accuracy of a given solution.
+
+    Args:
+        text (str): The solution to evaluate.
+        all_solutions (list[str]): A list of all possible solutions to compare against.
+
+    Returns:
+        float: The proportion of correct matches, calculated as the number of exact matches
+               divided by the total number of solutions.
+    """
     correct = all_solutions.count(text)
     total = len(all_solutions)
     return correct / total
