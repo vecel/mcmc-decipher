@@ -140,7 +140,18 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
     return all_samples, all_scores
 
 def get_best_solution(all_samples: list[str], all_scores: list[list]):
-    # TODO docstring
+    """
+    Identify the index and score of the best solution (by final score).
+
+    Args:
+        all_samples (list): List of decoded samples obtained from multiple decoding attempts.
+        all_scores (list): List of score lists, each corresponding to a decoding attempt.
+
+    Returns:
+        tuple:
+            - int: The index of the decoding attempt with the highest final score.
+            - float: The highest final score achieved across all decoding attempts.
+    """
     max_score = float("-inf")
     max_idx = -1
     for i in range(len(all_samples)):
@@ -156,7 +167,7 @@ def eval_solutions(text: str, all_solutions: list[str]):
 
     Args:
         text (str): The solution to evaluate.
-        all_solutions (list[str]): A list of all possible solutions to compare against.
+        all_solutions (list): A list of all possible solutions to compare against.
 
     Returns:
         float: The proportion of correct matches, calculated as the number of exact matches
