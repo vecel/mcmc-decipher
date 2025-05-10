@@ -149,8 +149,8 @@ def get_best_solution(all_samples: list[str], all_scores: list[list]):
 
     Returns:
         tuple:
-            - int: The index of the decoding attempt with the highest final score.
-            - float: The highest final score achieved across all decoding attempts.
+            - max_idx (int): The index of the decoding attempt with the highest final score.
+            - max_score (float): The highest final score achieved across all decoding attempts.
     """
     max_score = float("-inf")
     max_idx = -1
@@ -166,7 +166,7 @@ def eval_solutions(text: str, all_solutions: list[str]):
     Evaluate the accuracy of a given solution.
 
     Args:
-        text (str): The solution to evaluate.
+        text (str): The solution (typically true solution) to evaluate.
         all_solutions (list): A list of all possible solutions to compare against.
 
     Returns:
