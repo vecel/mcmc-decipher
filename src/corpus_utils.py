@@ -82,9 +82,9 @@ def get_letter_frequencies(text: str, alphabet: str = ALPHABET):
             - letters (tuple): A tuple of letters sorted in descending order of frequency.
             - frequencies (tuple): A tuple of corresponding normalized frequencies (floats).
     """
-    letter_freqency = {letter: 0 for letter in ALPHABET}
+    letter_freqency = {letter: 0 for letter in alphabet}
     for letter in text:
-        if letter in ALPHABET:
+        if letter in alphabet:
             letter_freqency[letter] += 1
 
     letter_freqency = {key: value / len(text) for key, value in letter_freqency.items()}
