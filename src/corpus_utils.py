@@ -60,7 +60,7 @@ def create_perc_dict(corpus: str, alphabet: str = ALPHABET):
     for i in alphabet:
         total_count = sum(count_dict[i].values())
         for j in alphabet:
-            letter_perc = (count_dict[i][j] + 1) / total_count #FIXME dlaczego plus 1
+            letter_perc = (count_dict[i][j] + 1) / total_count
             perc_dict[i][j] = np.log(letter_perc)
     return perc_dict
 
