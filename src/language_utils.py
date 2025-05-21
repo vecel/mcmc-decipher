@@ -54,6 +54,6 @@ def create_lang_corpus(lang_code, n_results=5, queries=["Internet"], max_retries
     corpus = re.sub(r"[\(\[].*?[\)\]]", "", corpus)
     corpus = corpus.replace("=", " ")
     corpus = re.sub(r"\s+", " ", corpus)
-    corpus = re.sub(r'\s*,\s*', ", ")
-    corpus = re.sub(r'\s*\.\s*', ", ")
+    corpus = re.sub(r'\s*,\s*', ", ", corpus)
+    corpus = re.sub(r'\s*\.\s*', ", ", corpus)
     return corpus.lower()
