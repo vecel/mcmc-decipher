@@ -2,6 +2,7 @@ import wikipedia
 import time
 from requests.exceptions import RequestException
 import re
+from googletrans import Translator, LANGCODES
 
 def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = ["Internet"], max_retries: int = 5, backoff_factor: int = 2):
     """
@@ -58,5 +59,20 @@ def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = 
     corpus = re.sub(r'\s*\.\s*', ", ", corpus)
     return corpus.lower()
 
-# TODO translate list of queries
-# TODO create alphabet from corpus
+async def translate_queries(queries: list[str], src: str, dest: str):
+    # TODO docstring
+    if not src in list(LANGCODES.values()):
+        return []
+    if not dest in list(LANGCODES.values()):
+        return []
+    
+    ts = Translator()
+    translated = await ts.translate(queries, src=src, dest=dest)
+    
+    return [translation.text for translation in translated]
+
+def get_alphabet(corpus: str):
+    # TODO add docstring
+    alphabet = sorted(set(corpus)) # FIXME order letters-numbers-punctuation
+
+
