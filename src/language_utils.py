@@ -3,7 +3,7 @@ import time
 from requests.exceptions import RequestException
 import re
 
-def create_lang_corpus(lang_code, n_results=5, queries=["Internet"], max_retries=5, backoff_factor=2):
+def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = ["Internet"], max_retries: int = 5, backoff_factor: int = 2):
     """
     Retrieves and compiles the content of Wikipedia pages.
 
@@ -57,3 +57,6 @@ def create_lang_corpus(lang_code, n_results=5, queries=["Internet"], max_retries
     corpus = re.sub(r'\s*,\s*', ", ", corpus)
     corpus = re.sub(r'\s*\.\s*', ", ", corpus)
     return corpus.lower()
+
+# TODO translate list of queries
+# TODO create alphabet from corpus
