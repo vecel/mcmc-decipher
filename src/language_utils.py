@@ -3,6 +3,7 @@ import time
 from requests.exceptions import RequestException
 import re
 from googletrans import Translator, LANGCODES
+import string
 
 def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = ["Internet"], max_retries: int = 5, backoff_factor: int = 2):
     """
@@ -71,8 +72,24 @@ async def translate_queries(queries: list[str], src: str, dest: str):
     
     return [translation.text for translation in translated]
 
-def get_alphabet(corpus: str):
+def get_alphabet(corpus_file: str):
     # TODO add docstring
-    alphabet = sorted(set(corpus)) # FIXME order letters-numbers-punctuation
+    with open(corpus_file) as file:
+        corpus = file.read()
 
+    characters = set(corpus)
+    digits = ""
+    punctuation = ""
+    letters = ""
+    for char in characters:
+        if char.isdigit():
+            digits += char
+        else:
+            if char in string.punctuation:
+                punctuation += char
+            else:
+                letters += char        
+
+    delim = ""
+    return delim.join(sorted(letters)+sorted(digits)+sorted(punctuation))
 
