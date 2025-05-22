@@ -1,14 +1,13 @@
 from language_utils import create_lang_corpus, translate_queries 
 import os
 import asyncio
-
-lang_codes = ["pl", "hu", "sv", "it", "de"]
+from constants import LANG_CODES
 
 queries = ["Historia", "Geografia", "Internet", "Muzyka", "Literatura", "Sport", \
              "Natura", "Wydarzenia", "Polityka", "Taniec", "Zwierzęta", "Nauka", \
                 "Człowiek", "Film", "Moda", "Architektura", "Religia"]
 
-for lang_code in lang_codes:
+for lang_code in LANG_CODES:
     if lang_code != "pl":
         queries_t = asyncio.run(translate_queries(queries, src="pl", dest=lang_code))
 
