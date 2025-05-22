@@ -74,7 +74,7 @@ async def translate_queries(queries: list[str], src: str, dest: str):
 
 def get_alphabet(corpus: str):
     # TODO add docstring
-    characters = set(corpus) # FIXME order letters-numbers-punctuation
+    characters = set(corpus)
     digits = ""
     punctuation = ""
     letters = ""
