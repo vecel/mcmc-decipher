@@ -72,21 +72,4 @@ async def translate_queries(queries: list[str], src: str, dest: str):
     
     return [translation.text for translation in translated]
 
-def get_alphabet(corpus: str):
-    # TODO add docstring
-    characters = set(corpus)
-    digits = ""
-    punctuation = ""
-    letters = ""
-    for char in characters:
-        if char.isdigit():
-            digits += char
-        else:
-            if char in string.punctuation:
-                punctuation += char
-            else:
-                letters += char        
-
-    delim = ""
-    return delim.join(sorted(letters)+sorted(digits)+sorted(punctuation))
 
