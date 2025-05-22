@@ -60,7 +60,8 @@ def create_perc_dict(corpus: str, alphabet: str = ALPHABET):
     for i in alphabet:
         total_count = sum(count_dict[i].values())
         if total_count == 0:
-            continue
+            continue # FIXME temporary fix, letter/punctuation is not in corpus
+                     # perc_dict[i][j] should be -inf/very small ?1/numer of characters in corpus? maybe
         for j in alphabet:
             letter_perc = (count_dict[i][j] + 1) / total_count
             perc_dict[i][j] = np.log(letter_perc)
