@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.constants import ALPHABET
+from constants import ALPHABET
 
 def _create_empty_dict(alphabet: str = ALPHABET):
     """
@@ -33,7 +33,7 @@ def _create_count_dict(corpus: str, alphabet: str = ALPHABET):
         dict: A nested dictionary of the form {char_a: {char_b: count, ...}, ...},
               representing how often char_b follows char_a in the corpus.
     """
-    count_dict = _create_empty_dict(alphabet=ALPHABET)
+    count_dict = _create_empty_dict(alphabet)
     for i in range(len(corpus) - 1):
         char_a = corpus[i]
         char_b = corpus[i+1]
@@ -59,6 +59,8 @@ def create_perc_dict(corpus: str, alphabet: str = ALPHABET):
     count_dict = _create_count_dict(corpus, alphabet)
     for i in alphabet:
         total_count = sum(count_dict[i].values())
+        if total_count == 0:
+            continue
         for j in alphabet:
             letter_perc = (count_dict[i][j] + 1) / total_count
             perc_dict[i][j] = np.log(letter_perc)
