@@ -72,12 +72,9 @@ async def translate_queries(queries: list[str], src: str, dest: str):
     
     return [translation.text for translation in translated]
 
-def get_alphabet(corpus_file: str):
+def get_alphabet(corpus: str):
     # TODO add docstring
-    with open(corpus_file) as file:
-        corpus = file.read()
-
-    characters = set(corpus)
+    characters = set(corpus) # FIXME order letters-numbers-punctuation
     digits = ""
     punctuation = ""
     letters = ""
