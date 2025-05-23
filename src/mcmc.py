@@ -193,3 +193,19 @@ def eval_close_solutions(text: str, all_solutions: list[str], perc_dict: dict, t
         if is_close_solution(text, solution, perc_dict, trust_level):
             close += 1
     return close / total
+
+# TODO docstrings for functions below, consider adding file evaluation.py
+def is_numeric_solution(solution: str):
+    numbers = '0123456789'
+    numbers_count = 0
+    for number in numbers:
+        numbers_count += solution.count(number)
+    return numbers_count / len(solution) >= 0.5
+
+def eval_numeric_solutions(all_solutions: list[str]):
+    numeric = 0
+    total = len(all_solutions)
+    for solution in all_solutions:
+        if is_numeric_solution(solution):
+            numeric += 1
+    return numeric / total
