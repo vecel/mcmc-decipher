@@ -1,6 +1,6 @@
 import numpy as np
 
-from constants import ALPHABET
+from src.constants import ALPHABET
 
 def _create_empty_dict(alphabet: str = ALPHABET):
     """

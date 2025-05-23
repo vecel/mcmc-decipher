@@ -21,7 +21,7 @@ def create_encrytpion_dict(alphabet: str = ALPHABET):
         encryption_dict[alphabet[i]] = rand_chars[i]
     return encryption_dict
 
-def encode(text: str, encryption_dict: str):
+def encode(text: str, encryption_dict: dict):
     """
     Encodes a message using a substitution cipher.
 

@@ -55,7 +55,7 @@ def eval_proposal(proposed_score: float, current_score: float):
     ratio = math.exp(diff)
     return ratio >= 1 or ratio > np.random.uniform(0,1)
     
-def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict = None, alphabet: str = ALPHABET, verbose: bool = False):
+def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
     """
     Attempts to decode a substitution cipher using a Markov Chain Monte Carlo (MCMC) approach.
 
@@ -111,7 +111,7 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
             
     return current_dict, best_score, best_text
 
-def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict = None, alphabet: str = ALPHABET):
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict | None = None, alphabet: str = ALPHABET):
     """
     Perform multiple decoding attempts using a Markov Chain Monte Carlo (MCMC) method.
 
@@ -176,3 +176,20 @@ def eval_solutions(text: str, all_solutions: list[str]):
     correct = all_solutions.count(text)
     total = len(all_solutions)
     return correct / total
+
+def is_close_solution(text: str, solution: str, perc_dict: dict, trust_level: float = 0.1):
+    # TODO docstring, trust_level from (0, 1)
+    text_score = score_likelihood(text, perc_dict)
+    solution_score = score_likelihood(solution, perc_dict)
+
+    trust_margin = abs(text_score * trust_level)
+    return -trust_margin <= solution_score - text_score <= trust_margin
+
+def eval_close_solutions(text: str, all_solutions: list[str], perc_dict: dict, trust_level: float = 0.1):
+    # TODO docstring
+    close = 0
+    total = len(all_solutions)
+    for solution in all_solutions:
+        if is_close_solution(text, solution, perc_dict, trust_level):
+            close += 1
+    return close / total
