@@ -3,7 +3,6 @@ import time
 from requests.exceptions import RequestException
 import re
 from googletrans import Translator, LANGCODES
-import string
 
 def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = ["Internet"], max_retries: int = 5, backoff_factor: int = 2):
     """
@@ -53,11 +52,10 @@ def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = 
             time.sleep((backoff_factor ** retries))
             retries += 1
 
-    corpus = re.sub(r"[\(\[].*?[\)\]]", "", corpus)
     corpus = corpus.replace("=", " ")
     corpus = re.sub(r"\s+", " ", corpus)
     corpus = re.sub(r'\s*,\s*', ", ", corpus)
-    corpus = re.sub(r'\s*\.\s*', ", ", corpus)
+    corpus = re.sub(r'\s*\.\s*', ". ", corpus)
     return corpus.lower()
 
 async def translate_queries(queries: list[str], src: str, dest: str):
