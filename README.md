@@ -5,14 +5,17 @@ An exploration of using Monte Carlo Markov Chain (MCMC) methods to break substit
 
 ## Introduction
 ### Problem
-[comment]: <> (Try to center this text while keeping latex code)
+[comment]: <> (Try to center this text while keeping latex code - 26! is over 4 * 10^26)
 <div align="justify">
-We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! (over $4 \cdot 10^{26}$) potential keys. This makes brute force approach infeasible.
+We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys. This makes brute force approach infeasible.
 </div>
 
 ### Goal
 ### Core Idea
 ### Approach
+
+## Exploaration
+[comment]: <> (Place our analysis here in some kind of subsections)
 
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
