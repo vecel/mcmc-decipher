@@ -14,6 +14,9 @@ We are facing the problem of deciphering a message encoded with substitution cip
 ### Core Idea
 ### Approach
 
+## Exploaration
+[comment]: <> (Place our analysis here in some kind of subsections)
+
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
