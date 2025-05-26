@@ -4,6 +4,7 @@ import asyncio
 from constants import LANG_CODES, FGN_ALPH
 import json
 from corpus_utils import create_perc_dict
+import os
 
 queries = ["Historia", "Geografia", "Internet", "Muzyka", "Literatura", "Sport", \
              "Natura", "Wydarzenia", "Polityka", "Taniec", "Zwierzęta", "Nauka", \
@@ -11,7 +12,7 @@ queries = ["Historia", "Geografia", "Internet", "Muzyka", "Literatura", "Sport",
 
 for lang_code in LANG_CODES:
     # FIXME change absolute path to relative using os.getcwd()
-    path = "/mnt/c/Users/user/Documents/AZŁM/mcmc-decipher/data/" + str(lang_code) + "_corpus.txt"
+    path = os.getcwd() + "/data/" + str(lang_code) + "_corpus.txt"
     
     if not os.path.exists(path):
         if lang_code != "pl":
@@ -23,7 +24,7 @@ for lang_code in LANG_CODES:
         with open(path, 'w') as textfile:
             textfile.write(new_corpus)
 
-    path_dict = "/mnt/c/Users/user/Documents/AZŁM/mcmc-decipher/data/" + str(lang_code) + "_perc_dict.json"
+    path_dict = os.getcwd() + "/data/" + str(lang_code) + "_perc_dict.json"
 
     if not os.path.exists(path_dict):
         with open(path) as file:
