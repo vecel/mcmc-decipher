@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 from src.constants import ALPHABET
-from src.cipher_utils import decode, create_encrytpion_dict
+from src.cipher_utils import decode, create_encryption_dict
 
 def score_likelihood(decoded_text: str, perc_dict: dict):
     """
@@ -33,7 +33,7 @@ def shuffle_pair(current_dict: dict):
     Returns:
         dict: A new dictionary with two randomly chosen values swapped.
     """
-    a, b = random.sample(current_dict.keys(), 2)
+    a, b = random.sample(list(current_dict.keys()), 2)
     proposed_dict = current_dict.copy()
     proposed_dict[a], proposed_dict[b] = proposed_dict[b], proposed_dict[a]
     return proposed_dict
@@ -85,7 +85,7 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
     best_text = []
     
     if encryption_dict is None:
-        current_dict = create_encrytpion_dict(alphabet)
+        current_dict = create_encryption_dict(alphabet)
     else:
         current_dict = encryption_dict
 
@@ -128,7 +128,7 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
     Returns:
         tuple:
             - all_samples (list): List of the final decoded samples from each attempt.
-            - all_scores (list): List of lists of the scores (scores recorded every 500 itertions)
+            - all_scores (list): List of score lists (scores recorded every 500 itertions)
                                  associated with each decoding attempt.
     """
     all_scores = []

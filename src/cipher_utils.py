@@ -2,7 +2,7 @@ import random
 
 from src.constants import ALPHABET
 
-def create_encrytpion_dict(alphabet: str = ALPHABET):
+def create_encryption_dict(alphabet: str = ALPHABET):
     """
     Creates random encryption dictionary for substitution cipher.
 
