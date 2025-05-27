@@ -12,6 +12,13 @@ We are facing the problem of deciphering a message encoded with substitution cip
 
 ### Goal
 ### Core Idea
+encoded text given
+state space - all encoded text permutations obtained by swaping two keys in encryption dictionary
+encodes text associated with encryption dictionary 1-1
+proposal states chosen uniformly 
+acceptance function : later
+after a long time we get the sample from stationary distribution - given by multiplying certain probabilities from perc_dicts based on a corpus
+'real' text is the most probable (we hope) so the final sample is supposed to be real decoded text 
 ### Approach
 
 ## Exploaration
