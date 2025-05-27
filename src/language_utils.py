@@ -59,7 +59,17 @@ def create_lang_corpus(lang_code: str, n_results: int = 5, queries: list[str] = 
     return corpus.lower()
 
 async def translate_queries(queries: list[str], src: str, dest: str):
-    # TODO docstring
+    """
+    Translates a list of queries.
+
+    Args:
+        queries (list): A list of strings to be translated.
+        src (str): The source language code (e.g., 'en' for English).
+        dest (str): The destination language code (e.g., 'es' for Spanish).
+
+    Returns:
+        A list of translated strings if successful, None if an error occurs.
+    """
     if not src in list(LANGCODES.values()):
         return []
     if not dest in list(LANGCODES.values()):
