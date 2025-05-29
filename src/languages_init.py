@@ -11,7 +11,6 @@ queries = ["Historia", "Geografia", "Internet", "Muzyka", "Literatura", "Sport",
                 "Człowiek", "Film", "Moda", "Architektura", "Religia", "Kosmos"]
 
 for lang_code in LANG_CODES:
-    # FIXME change absolute path to relative using os.getcwd()
     path = os.getcwd() + "/data/" + str(lang_code) + "_corpus.txt"
     
     if not os.path.exists(path):
