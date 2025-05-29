@@ -209,3 +209,46 @@ def eval_numeric_solutions(all_solutions: list[str]):
         if is_numeric_solution(solution):
             numeric += 1
     return numeric / total
+
+def is_close_solution_lw(text: str, solution: str, trust_level: float = 0.1):
+    """
+    Check if the solution is close to the original message letterwise.
+
+    Args:
+        text (str): The solution (typically true solution) to evaluate.
+        solution (str): The solution to compare with the reference.
+        trust_level (float): The acceptable mismatch ratio.
+
+    Returns:
+        bool: True if the strings match within the trust level, False otherwise.
+
+    Details:
+        Strings match within the trust level if ratio of correctly decoded letters
+        is greater or equal to 1-trust_level.    
+    """
+    n = len(solution)
+    correct = 0
+    for i in range(n):
+        if text[i] == solution[i]:
+            correct += 1
+
+    return correct/n >= (1 - trust_level)
+        
+def eval_close_solutions_lw(text: str, all_solutions: list[str], trust_level: float = 0.1):
+    """
+    Evaluate the accuracy of a given solution.
+
+    Args:
+        text (str): The solution (typically true solution) to evaluate.
+        all_solutions (str): A list of all possible solutions to compare against.
+        trust_level (float): The acceptable mismatch ratio.
+
+    Returns:
+        float: The proportion of close solutions letterwise.
+    """
+    close = 0
+    total = len(all_solutions)
+    for solution in all_solutions:
+        if is_close_solution_lw(text, solution, trust_level):
+            close += 1
+    return close / total
