@@ -178,7 +178,30 @@ def eval_solutions(text: str, all_solutions: list[str]):
     return correct / total
 
 def is_close_solution(text: str, solution: str, perc_dict: dict, trust_level: float = 0.1):
-    # TODO docstring, trust_level from (0, 1)
+    """
+    Check if the solution is close to the original message in terms of log-likelihood.
+
+    Args:
+        text (str): The solution (typically true solution) to evaluate.
+        solution (str): The solution to compare with the reference.
+        perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
+                          typically created from a language corpus using `create_perc_dict()`.
+        trust_level (float): The acceptable mismatch ratio.
+
+    Returns:
+        bool: True if the strings match within the trust level, False otherwise.
+
+    Details:
+        Strings match within the trust level if the difference between log-likehood
+        scores is no greater than absolute value of (text score)*trust_level.    
+    """
+    if trust_level >= 1:
+        trust_level = 0.1
+        print("Invalid trust level, will be set to default.")
+    if trust_level <= 0:
+        trust_level = 0.1   
+        print("Invalid trust level, will be set to default.") 
+
     text_score = score_likelihood(text, perc_dict)
     solution_score = score_likelihood(solution, perc_dict)
 
@@ -186,7 +209,19 @@ def is_close_solution(text: str, solution: str, perc_dict: dict, trust_level: fl
     return -trust_margin <= solution_score - text_score <= trust_margin
 
 def eval_close_solutions(text: str, all_solutions: list[str], perc_dict: dict, trust_level: float = 0.1):
-    # TODO docstring
+    """
+    Evaluate the accuracy of a given solution.
+
+    Args:
+        text (str): The solution (typically true solution) to evaluate.
+        all_solutions (str): A list of all possible solutions to compare against.
+        perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
+                          typically created from a language corpus using `create_perc_dict()`.
+        trust_level (float): The acceptable mismatch ratio.
+
+    Returns:
+        float: The proportion of close solutions in terms of log-likelihood.
+    """
     close = 0
     total = len(all_solutions)
     for solution in all_solutions:
@@ -194,8 +229,17 @@ def eval_close_solutions(text: str, all_solutions: list[str], perc_dict: dict, t
             close += 1
     return close / total
 
-# TODO docstrings for functions below, consider adding file evaluation.py
+# TODO consider adding file evaluation.py
 def is_numeric_solution(solution: str):
+    """
+    Check if the solution is numeric.
+
+    Args:
+        solution (str): The solution to check.
+
+    Returns:
+        bool: True if at least half of the solution consists of numbers, False otherwise.    
+    """
     numbers = '0123456789'
     numbers_count = 0
     for number in numbers:
@@ -203,6 +247,15 @@ def is_numeric_solution(solution: str):
     return numbers_count / len(solution) >= 0.5
 
 def eval_numeric_solutions(all_solutions: list[str]):
+    """
+    Calculate the ratio of numeric solutions.
+
+    Args:
+        all_solutions (str): A list of all possible solutions.
+
+    Returns:
+        float: The proportion of numeric solutions.
+    """
     numeric = 0
     total = len(all_solutions)
     for solution in all_solutions:
@@ -226,6 +279,13 @@ def is_close_solution_lw(text: str, solution: str, trust_level: float = 0.1):
         Strings match within the trust level if ratio of correctly decoded letters
         is greater or equal to 1-trust_level.    
     """
+    if trust_level >= 1:
+        trust_level = 0.1
+        print("Invalid trust level, will be set to default.")
+    if trust_level <= 0:
+        trust_level = 0.1   
+        print("Invalid trust level, will be set to default.") 
+
     n = len(solution)
     correct = 0
     for i in range(n):
