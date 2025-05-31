@@ -11,6 +11,7 @@ We are facing the problem of deciphering a message encoded with substitution cip
 </div>
 
 ### Goal
+decode text in a way that it is readable and understandable
 ### Core Idea
 encoded text given
 state space - all encoded text permutations obtained by swaping two keys in encryption dictionary
@@ -37,10 +38,10 @@ We analyzed how different message and corpus lengths impact the algorithm's perf
 </div>
 <br>
 <div align="justify">
-For each crypted message and corpus pair we ran default implementation of the algorithm for 50 times recording how many times we got exact, close and numeric solution. Below we define these metrics.<br><br>
-<b>Exact</b> solution is the same as the original, not crpyted message.<br> 
-<b>Close</b> solution is one whose likelihood score does not differ from original messages' score by given trust level. In analysis we used trust level value equal to 0.1. We use this metric to measure how many times we've got readable solution that human would read and understand what the original was.<br>
-<b>Numeric</b> solution is the solution which has large ratio of numbers characters compared to average sentence. We called a solution numeric if at least half of its characters were numbers.<br>
+For each encrypted message and corpus pair we ran default implementation of the algorithm 50 times recording how many times we got exact, close, and numeric solution. Below we define these metrics.<br><br>
+<b>Exact</b> solution is a solution exactly matching the original, not encrypted message.<br> 
+<b>Close</b> solution is a solution whose likelihood score does not differ from original messages' score by given trust level. In our analysis we used trust level value equal to 0.1. We use this metric to measure how many times a readable solution was reached. We define a readable solution as one that a person can read and understand easily.<br>
+<b>Numeric</b> solution is a solution with high content of numbers. We called a solution numeric if at least half of its characters were numbers.<br>
 </div>
 <br>
 <div align="justify">
@@ -54,20 +55,20 @@ We visualise the results using three heatmaps that display the ratios of these s
 <div align="justify">
 <ol>
 <li>
- Correct solutions were almost never found despite using larger corpuses. We can see that the biggest (20M characters) corpus got some stable correct solutions, but performance of 4 out of 50 attempts in the best scenario is very poor.
+ Correct solutions were almost never found despite using larger corpora. We can see that the biggest (20M characters) corpus got some stable correct solutions, but performance of 4 out of 50 attempts in the best scenario is very poor.
 </li>
 <li>
 Bigger corpus yields better close solutions ratio with strange peak in corpus length of 250k. We will discuss it in the next section.
 </li>
 <li>
-Numeric solutions ration decreases with corpus length. For small corpuses most of the found solutions were numeric while for the biggest corpuse this ratio varies around 0.14.
+Numeric solutions ratio decreases with corpus length. For small corpora most of the found solutions were numeric while for the biggest corpus this ratio varies around 0.14.
 </li>
 </ol>
 </div>
 
 #### Close versus Numeric
 <div align="justify">
-We faced an anomaly of having tremendous ratio of close solutions for small corpus (250k). The intuition says that this metric should increase with corpus' size. The explanation is that not every close solution is actually close to the original message. Because by close we mean similar likelihood score we do not measure whether the solution is readable by human. It turns out that for smaller corpuses numeric solutions have better scores than original messages (see 100k characters corpus). The explanation of phenomena of having about 0.80 close solutions ration for corpus of length 250k is that in this case original solution's score was similar to numeric solutions scores. We can see that we often ended in numeric solutions (with ratio about 0.78). For bigger corpuses numeric solutions have score lower than original message, so solutions classified as close are indeed easy to understand by human. 
+We faced an anomaly of having tremendous ratio of close solutions for small corpus (250k). The intuition says that this metric should increase with corpus' size. The explanation is that not every close solution is actually close to the original message. Because by close we mean similar likelihood score we do not actually measure whether the solution is readable by a human. It turns out that for smaller corpuses numeric solutions have better scores than original messages (see 100k characters corpus). The explanation of phenomena of having about 0.80 close solutions ratio for corpus of length 250k is that in this case original solution's score was similar to numeric solutions scores. We can see that we often ended in numeric solutions (with ratio about 0.78). For bigger corpora numeric solutions have lower score than the original message, so solutions classified as close are indeed easy to understand by a human. 
 </div>
 <br>
 <div align="justify">
