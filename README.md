@@ -7,7 +7,7 @@ An exploration of using Monte Carlo Markov Chain (MCMC) methods to break substit
 ### Problem
 [comment]: <> (Try to center this text while keeping latex code - 26! is over 4 * 10^26)
 <div align="justify">
-We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys. If we also consider numbers and punctuation we get 43 characters. This gives us 43! potential keys! This makes brute force approach infeasible.
+We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys (over 4&middot;10<sup>26</sup> ). If we also consider numbers and punctuation we get 43 characters. This gives us 43! potential keys! This makes brute force approach infeasible.
 </div>
 
 ### Goal
@@ -59,13 +59,15 @@ This distribution may need to be normalized so that it truly is a distribution b
 
 Let us now associate states from <b>S</b> with encrypting keys. We move uniformly from state <b>i</b> to state <b>j</b> if <b>j</b> was made from <b>i</b> by swaping two keys. Let <b>Q</b> be the state matrix of that chain. Note that this chain is <b>irreducible</b>.
 
-Define the acceptace function
+Define the <b>acceptace function</b>
 
-$$a_{ij} := \frac{\pi _j q_{ji}}{\pi _i q_{ij}}$$
+$$a_{ij} := \frac{\pi _j q_{ji}}{\pi _i q_{ij}} = \frac{\pi _j}{\pi _i}$$
 
 for such states <b>i</b>, <b>j</b> that the denominator is non-zero.
 
-We now create a new Markov chain, let's call it MHMC (Metropolis-Hastings Markov Chain). Assume we are in state <b>i</b>, now we propose state <b>j</b> according to <b>Q</b>. If the acceptance function is greater than 1 we accept the state, otherwise we accept the state with probability equal to acceptance function. 
+Note that the second equality comes from the fact that all non-zero elements from matrix <b>Q</b> are equal.
+
+We create a new Markov chain, let's call it MHMC (Metropolis-Hastings Markov Chain). Assume we are in state <b>i</b>, we propose state <b>j</b> according to <b>Q</b>. If the acceptance function is greater than 1 we accept the state, otherwise we accept the state with probability equal to acceptance function. 
 
 <b><i>Theorem 1</b> 
 The MHMC is aperiodic, irreducible and <b>&#960;</b> is it's stationary distribution.</i> 
@@ -140,10 +142,28 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 
 ### Frequency based initial decoding key
 ### Quality of decryption depending on the language group
+<b>Considered languages</b>
+<ol>
+<li>Polish (Slavic)</li>
+<li>Swedish (Scandinavian)</li>
+<li>German (Germanic)</li>
+<li>Italian (Romance)</li>
+<li>Hungarian (Finno-Ugric)</li>
+</ol>
 
-IZA 
+![](images/close_solutions_for_languages.png)
+#### Is it possible to decode a message not knowing the origin language?
+<b>German</b>
+
+|Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 | 0.80 | 0.85 | 0.90 | 0.95 |
+|:--------------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
+| <b>Close Solution Ratio</b> | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.03 | 0.06 | 0.11 | 0.20 | 0.24 | 0.31 | 0.39 | 0.52 | 0.69 | 0.75 |
+
+
+
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
+3. lectures PS - TODO format
 
 [1]: https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
