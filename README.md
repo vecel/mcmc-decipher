@@ -184,6 +184,6 @@ Table below shows close solutions ratios for different trust levels. Ratios were
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
-3. Wojciech Matysiak, <i>Procesy stochastyczne (lectures).</i> Faculty of Mathematics and Information Science, Warsaw University of Technology, 2024-2025.
+3. dr hab. Wojciech Matysiak, <i>Procesy stochastyczne (lectures).</i> Faculty of Mathematics and Information Science, Warsaw University of Technology, 2024-2025.
 
 [1]: https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
