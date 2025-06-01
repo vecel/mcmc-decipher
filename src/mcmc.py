@@ -198,7 +198,7 @@ def is_close_solution(text: str, solution: str, perc_dict: dict, trust_level: fl
     if trust_level >= 1:
         trust_level = 0.1
         print("Invalid trust level, will be set to default.")
-    if trust_level <= 0:
+    if trust_level < 0:
         trust_level = 0.1   
         print("Invalid trust level, will be set to default.") 
 
@@ -282,7 +282,7 @@ def is_close_solution_lw(text: str, solution: str, trust_level: float = 0.1):
     if trust_level >= 1:
         trust_level = 0.1
         print("Invalid trust level, will be set to default.")
-    if trust_level <= 0:
+    if trust_level < 0:
         trust_level = 0.1   
         print("Invalid trust level, will be set to default.") 
 
