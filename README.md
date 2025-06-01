@@ -142,6 +142,8 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 
 ### Frequency based initial decoding key
 ### Quality of decryption depending on the language group
+We thought it would be interesting to see if changing the language would influence the quality of decryption. We considered representatives of five different language groups.
+
 <b>Considered languages</b>
 <ol>
 <li>Polish (Slavic)</li>
@@ -151,19 +153,37 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 <li>Hungarian (Finno-Ugric)</li>
 </ol>
 
+We created the corpora for these languages by reading Wikipedia pages on various topic such as geography, music, politics etc. Then we created probability dictionaries based on fragments of the corpora of the same length. 
+
+For this section we have to redefine a close solution.
+
+A <b>close</b> solution is a solution that matches the original message letter by letter within a given trust level. A close solution with trust level equal to zero is an <b>exact</b> solution.
+
+On the image below we can see how the ratio of close solutions depends on the number of iterations (time) of the algotithm. Each plot is made for a different trust level (in bold). Ratios were based on a 100 attempts.
+
 ![](images/close_solutions_for_languages.png)
+
+The results are somewhat surprising. The algorithm seems to be working exceptionally well for Swedish. We can see that about 30% of solutions after 25000 iterations are exact matches and over 50% of solutions are a close match within trust level 0.05. We can assume that those messages are easy to understand even though not all of the letters match. We can see that in case of Swedish it does not get much better while increasing the trust level. That means that we either get a very close or a quite far solution.
+
+For Hungarian and Polish the algorithm was not very succesfull. Only about 10% of solutions were 95% close matches. Italian and German lie somwhere in the middle, Italian getting a bit better results.
+
+There is one more thing that caught our eye. On the last plot, corresponding to the trust level 0.25, the purple line is almost horizontal (ratio equal to about 25%). That means that one in a four German solutions is a 75% match with the original message after at most 5000 iterations. Running the algorithm any longer doesn't increase the succes ratio.
+
 #### Is it possible to decode a message not knowing the origin language?
-<b>German</b>
+During our analisys one final question arose. Is it possible to decode a message if we don't know what was the original language? Intuitively it wouldn't work but we decided to check it anyways.
 
-|Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 | 0.55 | 0.60 | 0.65 | 0.70 | 0.75 | 0.80 | 0.85 | 0.90 | 0.95 |
-|:--------------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
-| <b>Close Solution Ratio</b> | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.03 | 0.06 | 0.11 | 0.20 | 0.24 | 0.31 | 0.39 | 0.52 | 0.69 | 0.75 |
+In order to achieve the correct inclusion of alphabets we tried to decode an English message using a random language (one of the languages mentioned above). 
 
+It turns out that this approach <b>does not work</b>, even for German which is in the same languge group as English. We weren't able to reach a close enough solution with any of the previously mentioned languages.
 
+Table below shows close solutions ratios for different trust levels. Ratios were based on a 100 attempts of decoding an English message according to German letter transition probabilities.
 
+|Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 |
+|:--------------|------|------|------|------|------|------|------|------|------|------|------|
+| <b>Close Solution Ratio</b> | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.03 |
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
-3. lectures PS - TODO format
+3. Wojciech Matysiak, <i>Procesy stochastyczne (lectures).</i> Faculty of Mathematics and Information Science, Warsaw University of Technology, 2024-2025.
 
 [1]: https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
