@@ -5,7 +5,6 @@ An exploration of using Monte Carlo Markov Chain (MCMC) methods to break substit
 
 ## Introduction
 ### Problem
-[comment]: <> (Try to center this text while keeping latex code - 26! is over 4 * 10^26)
 <div align="justify">
 We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys (over 4&middot;10<sup>26</sup> ). If we also consider numbers and punctuation we get 43 characters. This gives us 43! potential keys! This makes brute force approach infeasible.
 </div>
@@ -20,7 +19,9 @@ Our goal is to retrieve the original message in a sensible time. We are also sea
 We start off with a given <b>encrypted message</b> and assume the probabilities
 </div>
 
-$$\mathbb{P}(letter_1 \rightarrow letter_2)$$
+<!-- $$\mathbb{P}(letter_1 \rightarrow letter_2)$$ -->
+
+![](images/prob.svg)
 
 <div align="justify">
 are known for every pair of letters in a given alphabet. The expression in brackets means that letter number 2 follows letter number 1.
