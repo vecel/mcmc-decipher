@@ -154,11 +154,7 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 </div>
 <br>
 
-<span style="display:block;text-align:center">
-
-![](images/decoding_score.png)
-
-</span>
+<img align="center" src="images/decoding_score.png">
 
 ### 2. Frequency based initial decoding key
 <div align="justify">
@@ -265,7 +261,7 @@ It turns out that this approach <b>does not work</b>, even for German which is i
 Table below shows close solutions ratios for different trust levels. Ratios were based on a 100 attempts of decoding an English message according to German letter transition probabilities.
 </div>
 
-<div align="denter">
+<div align="center">
 
 |Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 |
 |:--------------|------|------|------|------|------|------|------|------|------|------|------|
