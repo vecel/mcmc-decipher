@@ -34,7 +34,7 @@ Each state in <b>S</b> is unambiguously identified by an alphabet permutation (e
 We define a probability distribution <b>&#960;</b> on <b>S</b> according to probabilities mentioned above. We use Metropolis-Hastings algorithm and after many iterations we get a sample from the distribution <b>&#960;</b> (more details in the next section).
 
 #### Intuition
-Since distribution <b>&#960;</b> is very closely linked to a real language it is very non-uniform. Obviously texts that resemble real language are more probable that gibberish. That is why we will land in the most probable solutions much more often. We hope that the most probable texts are close to the correct message.
+Since distribution <b>&#960;</b> is very closely linked to a real language it is very non-uniform. Obviously texts that resemble real language are more probable than gibberish. That is why we will land in the most probable solutions much more often. We hope that the most probable texts are close to the correct message.
 </div>
 
 ### Approach
@@ -142,8 +142,9 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 
 ### Frequency based initial decoding key
 ### Quality of decryption depending on the language group
+<div align="justify">
 We thought it would be interesting to see if changing the language would influence the quality of decryption. We considered representatives of five different language groups.
-
+<br><br>
 <b>Considered languages</b>
 <ol>
 <li>Polish (Slavic)</li>
@@ -160,23 +161,28 @@ For this section we have to redefine a close solution.
 A <b>close</b> solution is a solution that matches the original message letter by letter within a given trust level. A close solution with trust level equal to zero is an <b>exact</b> solution.
 
 On the image below we can see how the ratio of close solutions depends on the number of iterations (time) of the algotithm. Each plot is made for a different trust level (in bold). Ratios were based on a 100 attempts.
+</div>
 
 ![](images/close_solutions_for_languages.png)
 
-The results are somewhat surprising. The algorithm seems to be working exceptionally well for Swedish. We can see that about 30% of solutions after 25000 iterations are exact matches and over 50% of solutions are a close match within trust level 0.05. We can assume that those messages are easy to understand even though not all of the letters match. We can see that in case of Swedish it does not get much better while increasing the trust level. That means that we either get a very close or a quite far solution.
+<div align="justify">
+The results are somewhat surprising. The algorithm seems to be working exceptionally well for Swedish. We can see that about 30% of solutions after 25000 iterations are exact matches and over 50% of solutions are a close match within trust level 0.05. We can assume that those messages are easy to understand even though not all of the letters match. We can see that in case of Swedish it does not get much better while increasing the trust level. That means that we either get a very close or a quite far solution.<br><br>
 
 For Hungarian and Polish the algorithm was not very succesfull. Only about 10% of solutions were 95% close matches. Italian and German lie somwhere in the middle, Italian getting a bit better results.
 
 There is one more thing that caught our eye. On the last plot, corresponding to the trust level 0.25, the purple line is almost horizontal (ratio equal to about 25%). That means that one in a four German solutions is a 75% match with the original message after at most 5000 iterations. Running the algorithm any longer doesn't increase the succes ratio.
+</div>
 
 #### Is it possible to decode a message not knowing the origin language?
-During our analisys one final question arose. Is it possible to decode a message if we don't know what was the original language? Intuitively it wouldn't work but we decided to check it anyways.
+<div align="justify">
+During our analisys one final question arose. Is it possible to decode a message if we don't know what was the original language? Intuitively it wouldn't work but we decided to check it anyways.<br><br>
 
 In order to achieve the correct inclusion of alphabets we tried to decode an English message using a random language (one of the languages mentioned above). 
 
 It turns out that this approach <b>does not work</b>, even for German which is in the same languge group as English. We weren't able to reach a close enough solution with any of the previously mentioned languages.
 
 Table below shows close solutions ratios for different trust levels. Ratios were based on a 100 attempts of decoding an English message according to German letter transition probabilities.
+</div>
 
 |Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 |
 |:--------------|------|------|------|------|------|------|------|------|------|------|------|
