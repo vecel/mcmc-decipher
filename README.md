@@ -56,10 +56,10 @@ $$\forall_{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
 We already defined our state space. The distribution <b>&#960;</b> is naturally given by
 </div>
 
-$$\pi_{(t_1, \dots, t_n)}=\prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
+$$\pi_t=\prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
 
 <div align="justify">
-The sequence (t<sub>n</sub>) corresponds to the text of length N.
+The sequence t = (t<sub>n</sub>) corresponds to the text of length N.
 </div>
 <br>
 <div align="justify">
