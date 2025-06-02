@@ -49,7 +49,7 @@ Assume state space <b>S</b> is countable. Let (X<sub>n</sub>)<sub>n&#8805;0</sub
 </i>
 </div> 
 
-$$\forall_{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
+$$\forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
 
 #### Metropolis-Hastings algorithm
 <div align="justify">
