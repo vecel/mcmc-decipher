@@ -19,12 +19,10 @@ Our goal is to retrieve the original message in a sensible time. We are also sea
 We start off with a given <b>encrypted message</b> and assume the probabilities
 </div>
 
-<!-- $$\mathbb{P}(letter_1 \rightarrow letter_2)$$ -->
-
-![](images/prob.svg)
+$$\mathbb{P}(t_1 \rightarrow t_2)$$
 
 <div align="justify">
-are known for every pair of letters in a given alphabet. The expression in brackets means that letter number 2 follows letter number 1.
+are known for every pair of letters in a given alphabet. The expression in brackets means that letter t<sub>2</sub> follows letter t<sub>1</sub>.
 </div>
 
 <div align="justify">
@@ -51,14 +49,14 @@ Assume state space <b>S</b> is countable. Let (X<sub>n</sub>)<sub>n&#8805;0</sub
 </i>
 </div> 
 
-$$\forall _{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
+$$\forall_{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
 
 #### Metropolis-Hastings algorithm
 <div align="justify">
 We already defined our state space. The distribution <b>&#960;</b> is naturally given by
 </div>
 
-$$\pi _{(t_n)_{n=1}^N} = \prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
+$$\pi_{(t_n)_{n=1}^N} = \prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
 
 <div align="justify">
 The sequence (t<sub>n</sub>) corresponds to the text of length N.
