@@ -72,7 +72,7 @@ Let us now associate states from <b>S</b> with encrypting keys. We move uniforml
 Define the <b>acceptace function</b>
 </div>
 
-$$a_{ij} := \frac{\pi _j q_{ji}}{\pi _i q_{ij}} = \frac{\pi _j}{\pi _i}$$
+$$a_{ij} := \frac{\pi_j q_{ji}}{\pi_i q_{ij}} = \frac{\pi_j}{\pi_i}$$
 
 <div align="justify">
 for such states <b>i</b>, <b>j</b> that the denominator is non-zero.
