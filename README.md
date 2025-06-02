@@ -154,7 +154,9 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 </div>
 <br>
 
-<img align="center" src="images/decoding_score.png">
+<div align="center">
+<img src="images/decoding_score.png">
+</div>
 
 ### 2. Frequency based initial decoding key
 <div align="justify">
