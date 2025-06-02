@@ -18,22 +18,28 @@ Our goal is to retrieve the original message in a sensible time. We are also sea
 ### Core Idea
 <div align="justify">
 We start off with a given <b>encrypted message</b> and assume the probabilities
+</div>
 
 $$\mathbb{P}(letter_1 \rightarrow letter_2)$$
 
+<div align="justify">
 are known for every pair of letters in a given alphabet. The expression in brackets means that letter number 2 follows letter number 1.
+</div>
 
+<div align="justify">
 We define state space <b>S</b> of all possible messages created from initial encrypted message by changing the encryption key.
-
+<br><br>
 <b><i>Example</b> 
 Let initial message be <i>"Connecticut"</i>. <i>"Bittebprblp"</i> is an allowed state, <i>"Tcdpetdhbss"</i> is not allowed.</i>
-
+<br><br>
 <b><i>Observation</b> 
 Each state in <b>S</b> is unambiguously identified by an alphabet permutation (encryption key).</i> 
-
+<br><br>
 We define a probability distribution <b>&#960;</b> on <b>S</b> according to probabilities mentioned above. We use Metropolis-Hastings algorithm and after many iterations we get a sample from the distribution <b>&#960;</b> (more details in the next section).
+</div>
 
 #### Intuition
+<div align="justify">
 Since distribution <b>&#960;</b> is very closely linked to a real language it is very non-uniform. Obviously texts that resemble real language are more probable than gibberish. That is why we will land in the most probable solutions much more often. We hope that the most probable texts are close to the correct message.
 </div>
 
@@ -42,52 +48,59 @@ Since distribution <b>&#960;</b> is very closely linked to a real language it is
 <b><i>Ergodic Theorem</b> 
 Assume state space <b>S</b> is countable. Let (X<sub>n</sub>)<sub>n&#8805;0</sub> be an irreducible, aperiodic Markov Chain on <b>S</b> with stationary distribution <b>&#960;</b> and transition matrix <b>P</b>. Then <b>&#960;</b> is the only stationary distribution and
 </i>
+</div> 
 
 $$\forall _{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0 \,.$$
-</div> 
 
 #### Metropolis-Hastings algorithm
 <div align="justify">
 We already defined our state space. The distribution <b>&#960;</b> is naturally given by
+</div>
 
 $$\pi _{(t_n)_{n=1}^N} = \prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
 
+<div align="justify">
 The sequence (t<sub>n</sub>) corresponds to the text of length N.
-
+</div>
+<br>
+<div align="justify">
 <b><i>Remark</b> 
 This distribution may need to be normalized so that it truly is a distribution but for algorithmic purposes it does not matter and the interpretation from the previous section is still valid.</i>
-
+<br><br>
 Let us now associate states from <b>S</b> with encrypting keys. We move uniformly from state <b>i</b> to state <b>j</b> if <b>j</b> was made from <b>i</b> by swaping two keys. Let <b>Q</b> be the state matrix of that chain. Note that this chain is <b>irreducible</b>.
+<br><br>
 
 Define the <b>acceptace function</b>
+</div>
 
 $$a_{ij} := \frac{\pi _j q_{ji}}{\pi _i q_{ij}} = \frac{\pi _j}{\pi _i}$$
 
+<div align="justify">
 for such states <b>i</b>, <b>j</b> that the denominator is non-zero.
-
+<br><br>
 Note that the second equality comes from the fact that all non-zero elements from matrix <b>Q</b> are equal.
-
+<br><br>
 We create a new Markov chain, let's call it MHMC (Metropolis-Hastings Markov Chain). Assume we are in state <b>i</b>, we propose state <b>j</b> according to <b>Q</b>. If the acceptance function is greater than 1 we accept the state, otherwise we accept the state with probability equal to acceptance function. 
-
+<br><br>
 <b><i>Theorem 1</b> 
 The MHMC is aperiodic, irreducible and <b>&#960;</b> is it's stationary distribution.</i> 
-
+<br><br>
 <b><i>Theorem 2</b> 
 If <b>P</b> is a trasition matrix for Markov chain (X<sub>n</sub>)<sub>n&#8805;0</sub> and
+</i></div>
 
 $$ \exists_{\nu - probability \; distribution} \forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \nu _j$$
 
-then
+<i>then</i>
 
 $$\forall_{\alpha - probability \; distribution} \; X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu$$
 
-</i><br> 
-
+<br> 
+<div align="justify">
 Considering <b>Theorem 1</b>, <b>Theorem 2</b> and the <b>Ergodic Theorem</b> we get that no matter what state we start from we will get the sample from the stationary distribution <b>&#960;</b> (while approaching infinity). 
-
+<br><br>
 In practice we use log-probabilities instead of probabilities <b>&#960;</b><sub>i</sub>. We do that to avoid multiplying a lot of small numbers (probabilities for letter transitions), instead we add logarithms of those probabilities.
 </div>
-
 
 ## Exploaration
 <div align="justify">
