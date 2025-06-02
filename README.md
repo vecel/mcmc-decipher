@@ -94,7 +94,7 @@ In practice we use log-probabilities instead of probabilities <b>&#960;</b><sub>
 In this section we discuss our studies on algorithm and probabilistic approach of decoding the crypted messages. We aim to identify limitations, characteristics and qualities depending on the factors such as message length, language corpus length, initial starting key and language group.
 </div>
 
-### Quality of decryption regarding text length and corpus length
+### 1. Quality of decryption regarding text length and corpus length
 <div align="justify">
 We analyzed how different message and corpus lengths impact the algorithm's performance. We examined combinations of text's lengths: 100, 250, 500, 1000 with corpus lengths equal to 100k, 250k, 1M, 5M, 20M.
 </div>
@@ -138,10 +138,71 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 </div>
 <br>
 
+<center>
+
 ![](images/decoding_score.png)
 
-### Frequency based initial decoding key
-### Quality of decryption depending on the language group
+</center>
+
+### 2. Frequency based initial decoding key
+<div align="justify">
+We were trying to improve the algorithm's performance by specifying starting encryption key instead of using a random one. If we were trying to decode the message without help of Monte Carlo methods we would probably find the most common letter in the deciphered text and substitute it with the most common letter in the language. We would do the same for second most common, third and so on. Here we made use of both heuristic and probabilistic approach.
+<br><br>
+For this approach to work we need a message that is long enough to contain letter frequencies structure similar to the language. In our study we used text of about 500 characters.
+<br><br>
+An image below presents the comparsion of each character frequency in the corpus and encoded message.
+</div>
+<br>
+
+<center>
+
+![](images/letter_frequencies.png)
+
+</center>
+
+<div align="justify">
+We can see very similar shape for both message and language corpus.
+<br><br>
+In this case we would run algorithm with starting encryption key presented in the table (character "_" means space).
+</div>
+<br>
+
+<center>
+
+|Letter     | _ | e | t | a | n | o | i | r | s | h | ... |
+|:--------------|------|------|------|------|------|------|------|------|------|------|------|
+|<b>Substitution</b> | l | s | , | 3 | 8 | 9 | j | r | m | . | ... |
+
+</center>
+
+<br>
+<div align="justify">
+When using default implementation, the one with random starting key, we sometimes ended in numeric solutions. It is a problem, because if we already are in such solution it is very difficult to leave it. That is because numbers are very likely to appear together and proposing change from number to letter is almost never accepted as it lowers the score the algorithm use to measure soultion's quality.
+<br><br>
+With frequency based approach we dramatically decrease chance of getting to such wrong solution as we start with probable one, the one that is not encoded to numbers (unless original message was numeric).
+<br>
+</div>
+
+#### Results
+
+<div align="justify">
+Below we present the results of running algorithm 50 times with and without improvement.
+</div>
+<br>
+
+<center>
+
+![](images/frequency_based_starting_dict.png)
+
+</center>
+
+<div align="justify">
+We can see that initial log-likelihood score, here about -1700, is much better in the improved version. It is also bigger than numeric solution scores which in this experiment range from -2200 to -2600.
+<br><br>
+We also got much better ratio of close solutions (with trust level of 0.1). With random starting encryption key we've got <b>0.46</b> close solutions while with frequency based strategy this ratio increased by 0.30 reaching <b>0.76</b>. It means that, as humans, we were able to read and understand the decoded message three out of four times.
+</div>
+
+### 3. Quality of decryption depending on the language group
 <div align="justify">
 We thought it would be interesting to see if changing the language would influence the quality of decryption. We considered representatives of five different language groups.
 <br><br>
@@ -156,14 +217,18 @@ We thought it would be interesting to see if changing the language would influen
 
 We created the corpora for these languages by reading Wikipedia pages on various topic such as geography, music, politics etc. Then we created probability dictionaries based on fragments of the corpora of the same length. 
 
-For this section we have to redefine a close solution.
+For this section we have to redefine what a close solution is.
 
 A <b>close</b> solution is a solution that matches the original message letter by letter within a given trust level. A close solution with trust level equal to zero is an <b>exact</b> solution.
 
 On the image below we can see how the ratio of close solutions depends on the number of iterations (time) of the algotithm. Each plot is made for a different trust level (in bold). Ratios were based on a 100 attempts.
 </div>
 
+<center>
+
 ![](images/close_solutions_for_languages.png)
+
+</center>
 
 <div align="justify">
 The results are somewhat surprising. The algorithm seems to be working exceptionally well for Swedish. We can see that about 30% of solutions after 25000 iterations are exact matches and over 50% of solutions are a close match within trust level 0.05. We can assume that those messages are easy to understand even though not all of the letters match. We can see that in case of Swedish it does not get much better while increasing the trust level. That means that we either get a very close or a quite far solution.<br><br>
@@ -184,9 +249,14 @@ It turns out that this approach <b>does not work</b>, even for German which is i
 Table below shows close solutions ratios for different trust levels. Ratios were based on a 100 attempts of decoding an English message according to German letter transition probabilities.
 </div>
 
+<center>
+
 |Trust level     | 0.00 | 0.05 | 0.10 | 0.15 | 0.20 | 0.25 | 0.30 | 0.35 | 0.40 | 0.45 | 0.50 |
 |:--------------|------|------|------|------|------|------|------|------|------|------|------|
 | <b>Close Solution Ratio</b> | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 | 0.01 | 0.01 | 0.03 |
+
+</center>
+
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
