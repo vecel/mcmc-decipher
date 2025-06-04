@@ -128,20 +128,15 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
             
     return current_dict, best_score, best_text
 
-def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str], encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
+def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str], repeat = 1, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
     """
     Attempts to decode a substitution cipher using a simulated annealing approach.
-
-    This function uses the Metropolis-Hastings algorithm to iteratively search for the most
-    likely decryption of an encoded message. It begins with a random substitution mapping
-    and proposes new mappings by swapping character pairs, accepting or rejecting each
-    based on how the proposed decoding improves the log-likelihood under a language model.
 
     Args:
         encoded_text (str): The ciphertext to be decoded.
         perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
                           typically created from a language corpus using `create_perc_dict()`.
-        iters (int): Number of MCMC iterations to run.
+        heating_plan (list): Heating plan for the simulated annealing.
         encryption_dict (dict): An encryption dictionary used as the starting point for the
                                 algorithm. If not specified the random one will be used.
         alphabet (str): The character set used in the cipher and language model.
@@ -154,6 +149,8 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
             - best_score (list): List of scores recorded every 500 iterations.
             - best_text (list): List of corresponding decrypted texts
     """
+    if repeat > 1:
+        heating_plan = [beta for beta in heating_plan for _ in range(repeat)]
     iters = len(heating_plan)
     best_score = []
     best_text = []
