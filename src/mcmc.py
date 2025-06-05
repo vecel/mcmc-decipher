@@ -125,7 +125,10 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
         
         if verbose == True and i % 1000 == 0:
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
-            
+    
+    best_score.append(current_score)
+    best_text.append(current_decrypted)      
+
     return current_dict, best_score, best_text
 
 def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str], repeat = 1, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
@@ -176,13 +179,16 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
         if i % 500 == 0:
             best_score.append(current_score)
             best_text.append(current_decrypted)
-        
+
         if verbose == True and i % 1000 == 0:
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
+
+    best_score.append(current_score)
+    best_text.append(current_decrypted)        
             
     return current_dict, best_score, best_text
 
-def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict | None = None, alphabet: str = ALPHABET):
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, option = "default", encryption_dict: dict | None = None, alphabet: str = ALPHABET, heating_plan: list[str] | None = None, repeat: int = 1):
     """
     Perform multiple decoding attempts using a Markov Chain Monte Carlo (MCMC) method.
 
@@ -202,10 +208,17 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
             - all_scores (list): List of score lists (scores recorded every 500 itertions)
                                  associated with each decoding attempt.
     """
+    if option != "default" and option != "annealing":
+        raise NameError()
     all_scores = []
     all_samples = []
+    if option == "annealing":
+        iters = len(heating_plan)
     for i in range(attempts):
-        _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
+        if option == "annealing":
+            _, scores, samples = decode_MCMC_heat(encoded_text, perc_dict, heating_plan, repeat=repeat, encryption_dict=encryption_dict, alphabet=alphabet)
+        else:    
+            _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
         all_scores.append(scores)
         all_samples.append(samples[-1])
     return all_samples, all_scores
@@ -383,5 +396,3 @@ def eval_close_solutions_lw(text: str, all_solutions: list[str], trust_level: fl
         if is_close_solution_lw(text, solution, trust_level):
             close += 1
     return close / total
-
-# TODO symulowanie wyżarzanie
