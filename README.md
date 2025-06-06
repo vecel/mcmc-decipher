@@ -88,11 +88,11 @@ The MHMC is aperiodic, irreducible and <b>&#960;</b> is it's stationary distribu
 If <b>P</b> is a trasition matrix for Markov chain (X<sub>n</sub>)<sub>n&#8805;0</sub> and
 </i></div>
 
-$$ \exists_{\nu - probability \space distribution} \forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \nu _j$$
+$$ \exists_{\nu - probability \space distribution} \forall_{i, j \in S} \space  \lim_{n \to \infty}p_n(i, j) = \nu _j$$
 
 <i>then</i>
 
-$$\forall_{\alpha - probability \; distribution}  X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu.$$
+$$\forall_{\alpha - probability \; distribution} \space  X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu.$$
 
 <br> 
 <div align="justify">
@@ -107,11 +107,7 @@ In practice we use log-probabilities instead of probabilities <b>&#960;</b><sub>
 Let <b>H</b> be a real function on a finite domain <b>S</b>. We define Gibbs' distribution
 </i></div>
 
-$$\pi^{\beta}(x) = \frac{1}{Z_{\beta}}e^{\beta H(x)}$$
-
-<i>where</i>
-
-$$Z_{\beta} = \sum_{x\in S}e^{\beta H(x)}.$$
+$$\pi^{\beta}(x) = \frac{1}{Z_{\beta}}e^{\beta H(x)} \space \space where \space \space Z_{\beta} = \sum_{x\in S}e^{\beta H(x)}.$$
 
 <div align="justify">
 <b><i>Lemma 1</b> 
@@ -135,7 +131,7 @@ $$\beta_n \leq \frac{ln(n)}{\Delta}.$$
 <i>Where &Delta; is the maximum absolute difference between the values of <b>H</b>. Lets matrix <b>P</b><sub>n</sub> be the transition matrix from the Metropolis-Hastings algorithm for the stationary distribution <b>&pi;</b><sup>&beta;<sub>n</sub></sup>. Then
 </i></div>
 
-$$\forall_{\nu - probability \; distribution}\lim_{n \to \infty}||\nu P_1P_2\ldots P_n - \pi||_{TV} = 0,$$
+$$\forall_{\nu - probability \space distribution}\lim_{n \to \infty}\|\nu P_1P_2\ldots P_n - \pi\|_{TV} = 0,$$
 
 <div align="justify">
 <i>Where <b>&pi;</b> is defined in <b>Lemma 1</b>.
