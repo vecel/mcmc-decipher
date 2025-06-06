@@ -88,11 +88,11 @@ The MHMC is aperiodic, irreducible and <b>&#960;</b> is it's stationary distribu
 If <b>P</b> is a trasition matrix for Markov chain (X<sub>n</sub>)<sub>n&#8805;0</sub> and
 </i></div>
 
-$$ \exists_{\nu - probability \; distribution} \forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \nu _j$$
+$$ \exists_{\nu - probability \space distribution} \forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \nu _j$$
 
 <i>then</i>
 
-$$\forall_{\alpha - probability \; distribution} \; X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu.$$
+$$\forall_{\alpha - probability \; distribution}  X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu.$$
 
 <br> 
 <div align="justify">
