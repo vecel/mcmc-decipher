@@ -69,6 +69,8 @@ def eval_proposal_heat(proposed_score: float, current_score: float, beta: float)
     diff = proposed_score - current_score
     diff = min(1, diff)
     diff = max(-1000, diff)
+    if diff >= 0:
+        return True
     gibbs = math.exp(beta*diff)
     return gibbs >= 1 or gibbs > np.random.uniform(0,1) 
 
@@ -126,8 +128,9 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
         if verbose == True and i % 1000 == 0:
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
     
-    best_score.append(current_score)
-    best_text.append(current_decrypted)      
+    if iters % 500 == 0:
+        best_score.append(current_score)
+        best_text.append(current_decrypted)      
 
     return current_dict, best_score, best_text
 
@@ -183,8 +186,9 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
         if verbose == True and i % 1000 == 0:
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
 
-    best_score.append(current_score)
-    best_text.append(current_decrypted)        
+    if iters % 500 == 0:
+        best_score.append(current_score)
+        best_text.append(current_decrypted)        
             
     return current_dict, best_score, best_text
 
