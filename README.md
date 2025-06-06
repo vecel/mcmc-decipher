@@ -125,7 +125,7 @@ Where <b>M</b> is the set of global maxima of <b>H</b>.
 </i></div>
 
 <div align="justify">
-<b><i>Ergodic Theorem for non-homogenous Markov Chains</b> 
+<b><i>Ergodic Theorem for non-homogenous Markov Chains</b><br> 
 Let (&#946;)<sub>n</sub> be a heating plan
 </i></div>
 
@@ -140,7 +140,7 @@ $$\forall_{\nu - probability \; distribution}\lim_{n \to \infty}||\nu P_1P_2\ldo
 <div align="justify">
 <i>Where <b>&pi;</b> is defined in <b>Lemma 1</b>.
 </i><br><br>
-We apply the theory above to obtain a decoded text maximizing the loglikelihood function. Same intuition, as with the plain Metropolis-Hastings, applies. We hope that the most probable text will be the real message
+We apply the theory above to obtain a decoded text maximizing the loglikelihood function. Same intuition, as with the plain Metropolis-Hastings, applies. We hope that the most probable text will be the real message.
 </div>
 
 ## Exploration
@@ -314,6 +314,9 @@ Table below shows close solutions ratios for different trust levels. Ratios were
 
 </div>
 
+### 4. Simulated annealing approach
+#### Heating plan
+#### Comparison with plain Metropolis-Hastings
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
