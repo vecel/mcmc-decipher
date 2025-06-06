@@ -123,11 +123,9 @@ We visualise the results using three heatmaps that display the ratios of these s
 </div>
 <br>
 
-<center>
-
-![heatmaps](images/text_length_vs_corpus_length_heatmaps.png)
-
-</center>
+<div align="center">
+<img src="images/text_length_vs_corpus_length_heatmaps.png">
+</div>
 
 #### Observations
 <div align="justify">
@@ -168,11 +166,9 @@ An image below presents the comparsion of each character frequency in both the c
 </div>
 <br>
 
-<center>
-
-![](images/letter_frequencies.png)
-
-</center>
+<div align="center">
+<img src="images/letter_frequencies.png">
+</div>
 
 <div align="justify">
 We can see very a similar shape on both plots.
@@ -204,11 +200,9 @@ Below we present the results of running the algorithm 50 times with and without 
 </div>
 <br>
 
-<center>
-
-![](images/frequency_based_starting_dict.png)
-
-</center>
+<div align="center">
+<img src="images/frequency_based_starting_dict.png">
+</div>
 
 <div align="justify">
 We can see that, for the improved version, the initial log-likelihood score, approximately -1700, is much higher than for the default version. It is also higher than the numeric solutions' scores which in this experiment range from -2200 to -2600.
@@ -221,7 +215,9 @@ We carried out experiment for five different texts of lengths about 500 characte
 </div>
 <br>
 
-![](images/frequency_based_dict_close_solutions.png)
+<div align="center">
+<img src="images/frequency_based_dict_close_solutions.png">
+</div>
 
 ### 3. Quality of decryption depending on the language group
 <div align="justify">
@@ -245,11 +241,9 @@ A <b>close</b> solution is a solution that matches the original message letter b
 On the image below we can see how the ratio of close solutions depends on the number of iterations (time) of the algotithm. Each plot is made for a different trust level (in bold). Ratios were based on a 100 attempts.
 </div>
 
-<center>
-
-![](images/close_solutions_for_languages.png)
-
-</center>
+<div align="center">
+<img src="images/close_solutions_for_languages.png">
+</div>
 
 <div align="justify">
 The results are somewhat surprising. The algorithm seems to be working exceptionally well for Swedish. We can see that about 30% of solutions after 25000 iterations are exact matches and over 50% of solutions are a close match within trust level 0.05. We can assume that those messages are easy to understand even though not all of the letters match. We can see that in case of Swedish it does not get much better while increasing the trust level. That means that we either get a very close or a quite far solution.<br><br>
