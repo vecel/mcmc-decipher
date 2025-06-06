@@ -101,6 +101,48 @@ Considering <b>Theorem 1</b>, <b>Theorem 2</b> and the <b>Ergodic Theorem</b> we
 In practice we use log-probabilities instead of probabilities <b>&#960;</b><sub>i</sub>. We do that to avoid multiplying a lot of small numbers (probabilities for letter transitions), instead we add logarithms of those probabilities.
 </div>
 
+#### Simulated annealing
+<div align="justify">
+<b><i>Definition</b> 
+Let <b>H</b> be a real function on a finite domain <b>S</b>. We define Gibbs' distribution
+</i></div>
+
+$$\pi^{\beta}(x) = \frac{1}{Z_{\beta}}e^{\beta H(x)}$$
+
+<i>where</i>
+
+$$Z_{\beta} = \sum_{x\in S}e^{\beta H(x)}.$$
+
+<div align="justify">
+<b><i>Lemma 1</b> 
+Let <b>&#960;</b><sup>&#946;</sup> be a Gibbs' distribution for <b>H</b>. Then
+</i></div>
+
+$$\forall_{x \in S} \lim_{\beta \to \infty}\pi^{\beta}(x) = \pi(x) = \frac{1_{x \in M}}{|M|}.$$
+
+<div align="justify">
+Where <b>M</b> is the set of global maxima of <b>H</b>.
+</i></div>
+
+<div align="justify">
+<b><i>Ergodic Theorem for non-homogenous Markov Chains</b> 
+Let (&#946;)<sub>n</sub> be a heating plan
+</i></div>
+
+$$\beta_n \leq \frac{ln(n)}{\Delta}.$$
+
+<div align="justify">
+<i>Where &Delta; is the maximum absolute difference between the values of <b>H</b>. Lets matrix <b>P</b><sub>n</sub> be the transition matrix from the Metropolis-Hastings algorithm for the stationary distribution <b>&pi;</b><sup>&beta;<sub>n</sub></sup>. Then
+</i></div>
+
+$$\forall_{\nu - probability \; distribution}\lim_{n \to \infty}||\nu P_1P_2\ldots P_n - \pi||_{TV} = 0,$$
+
+<div align="justify">
+<i>Where <b>&pi;</b> is defined in <b>Lemma 1</b>.
+</i><br><br>
+We apply the theory above to obtain a decoded text maximizing the loglikelihood function. Same intuition, as with the plain Metropolis-Hastings, applies. We hope that the most probable text will be the real message
+</div>
+
 ## Exploration
 <div align="justify">
 In this section, we discuss our studies on the algorithm and the probabilistic approach of decoding the encrypted messages. We aim to identify limitations, characteristics and qualities depending on factors such as message length, language corpus length, initial starting key and language group.
