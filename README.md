@@ -215,6 +215,13 @@ We can see that, for the improved version, the initial log-likelihood score, app
 <br><br>
 We also got a much better ratio of close solutions (with trust level of 0.1). With random starting encryption key we've got <b>0.46</b> close solutions while with frequency based strategy this ratio increased by 0.30 reaching <b>0.76</b>. It means that, as humans, we were able to read and understand the decoded message three out of four times.
 </div>
+<br>
+<div align="justify">
+We carried out experiment for five different texts of lengths about 500 characters long. On the image below you can see how often we were able to get close solution with an algorithm using random starting encryption key and using frequency based one. Our heuristic strategy proved to be solid and robust improvement of the algorithm.
+</div>
+<br>
+
+![](images/frequency_based_dict_close_solutions.png)
 
 ### 3. Quality of decryption depending on the language group
 <div align="justify">
