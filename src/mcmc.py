@@ -54,7 +54,26 @@ def eval_proposal(proposed_score: float, current_score: float):
     diff = max(-1000, diff)
     ratio = math.exp(diff)
     return ratio >= 1 or ratio > np.random.uniform(0,1)
-    
+
+def eval_proposal_heat(proposed_score: float, current_score: float, beta: float):
+    """
+    Evaluates whether a proposed decryption should be accepted in the simulated annealing process.
+
+    Args:
+        proposed_score (float): Log-likelihood of the proposed decoding.
+        current_score (float): Log-likelihood of the current decoding.
+
+    Returns:
+        bool: True if the proposal is accepted, False otherwise.
+    """
+    diff = proposed_score - current_score
+    diff = min(1, diff)
+    diff = max(-1000, diff)
+    if diff >= 0:
+        return True
+    gibbs = math.exp(beta*diff)
+    return gibbs >= 1 or gibbs > np.random.uniform(0,1) 
+
 def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
     """
     Attempts to decode a substitution cipher using a Markov Chain Monte Carlo (MCMC) approach.
@@ -108,10 +127,72 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
         
         if verbose == True and i % 1000 == 0:
             print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
+    
+    if iters % 500 == 0:
+        best_score.append(current_score)
+        best_text.append(current_decrypted)      
+
+    return current_dict, best_score, best_text
+
+def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str], repeat = 1, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
+    """
+    Attempts to decode a substitution cipher using a simulated annealing approach.
+
+    Args:
+        encoded_text (str): The ciphertext to be decoded.
+        perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
+                          typically created from a language corpus using `create_perc_dict()`.
+        heating_plan (list): Heating plan for the simulated annealing.
+        encryption_dict (dict): An encryption dictionary used as the starting point for the
+                                algorithm. If not specified the random one will be used.
+        alphabet (str): The character set used in the cipher and language model.
+                        Defaults to the global `ALPHABET`.
+        verbose (bool): If True, prints progress updates every 1000 iterations.
+
+    Returns:
+        tuple:
+            - current_dict (dict): The final substitution mapping (best found).
+            - best_score (list): List of scores recorded every 500 iterations.
+            - best_text (list): List of corresponding decrypted texts
+    """
+    if repeat > 1:
+        heating_plan = [beta for beta in heating_plan for _ in range(repeat)]
+    iters = len(heating_plan)
+    best_score = []
+    best_text = []
+    
+    if encryption_dict is None:
+        current_dict = create_encryption_dict(alphabet)
+    else:
+        current_dict = encryption_dict
+
+    current_decrypted = decode(encoded_text, current_dict)
+    current_score = score_likelihood(current_decrypted, perc_dict)
+    
+    for i in range(iters):
+        proposed_dict = shuffle_pair(current_dict)
+        proposed_decrypted = decode(encoded_text, proposed_dict)
+        proposed_score = score_likelihood(proposed_decrypted, perc_dict)
+    
+        if eval_proposal_heat(proposed_score, current_score, heating_plan[i]):
+            current_dict = proposed_dict
+            current_score = proposed_score
+            current_decrypted = proposed_decrypted
+        
+        if i % 500 == 0:
+            best_score.append(current_score)
+            best_text.append(current_decrypted)
+
+        if verbose == True and i % 1000 == 0:
+            print("Iteration: " + str(i) + ". Score: " + str(current_score) + '. Message: ' + current_decrypted[0:50])
+
+    if iters % 500 == 0:
+        best_score.append(current_score)
+        best_text.append(current_decrypted)        
             
     return current_dict, best_score, best_text
 
-def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, encryption_dict: dict | None = None, alphabet: str = ALPHABET):
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, option = "default", encryption_dict: dict | None = None, alphabet: str = ALPHABET, heating_plan: list[str] | None = None, repeat: int = 1):
     """
     Perform multiple decoding attempts using a Markov Chain Monte Carlo (MCMC) method.
 
@@ -131,10 +212,17 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
             - all_scores (list): List of score lists (scores recorded every 500 itertions)
                                  associated with each decoding attempt.
     """
+    if option != "default" and option != "annealing":
+        raise NameError()
     all_scores = []
     all_samples = []
+    if option == "annealing":
+        iters = len(heating_plan)
     for i in range(attempts):
-        _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
+        if option == "annealing":
+            _, scores, samples = decode_MCMC_heat(encoded_text, perc_dict, heating_plan, repeat=repeat, encryption_dict=encryption_dict, alphabet=alphabet)
+        else:    
+            _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
         all_scores.append(scores)
         all_samples.append(samples[-1])
     return all_samples, all_scores

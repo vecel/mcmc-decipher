@@ -6,12 +6,12 @@ An exploration of using Monte Carlo Markov Chain (MCMC) methods to break substit
 ## Introduction
 ### Problem
 <div align="justify">
-We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys (over 4&middot;10<sup>26</sup> ). If we also consider numbers and punctuation we get 43 characters. This gives us 43! potential keys! This makes brute force approach infeasible.
+We are facing the problem of deciphering a message encoded with substitution cipher, where each letter from the alphabet is replaced with another one from the same alphabet. Although the method is straightforward to implement, decrypting a message is not trivial. The core difficulty is the number of possible encryption keys which is the number of possible alphabet's permutations. For example English alphabet has 26 letters, which gives 26! potential keys (over 4&middot;10<sup>26</sup>). If we also consider numbers and punctuation we get 43 characters. This gives us 43! potential keys! This makes brute force approach infeasible.
 </div>
 
 ### Goal
 <div align="justify">
-Our goal is to retrieve the original message in a sensible time. We are also searching for solutions that are close to the original message in a way one can understand them easily.
+Our goal is to retrieve the original message in a sensible time. We are also searching for solutions that are close enought to the original message. 
 </div>
 
 ### Core Idea
@@ -49,14 +49,14 @@ Assume state space <b>S</b> is countable. Let (X<sub>n</sub>)<sub>n&#8805;0</sub
 </i>
 </div> 
 
-$$\forall_{i, j \in S} \; \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
+$$\forall_{i, j \in S} \lim_{n \to \infty}p_n(i, j) = \pi _j > 0.$$
 
 #### Metropolis-Hastings algorithm
 <div align="justify">
 We already defined our state space. The distribution <b>&#960;</b> is naturally given by
 </div>
 
-$$\pi_t=\prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1})$$
+$$\pi_t=\prod_{n=1}^{N-1}\mathbb{P}(t_n \rightarrow t_{n+1}).$$
 
 <div align="justify">
 The sequence t = (t<sub>n</sub>) corresponds to the text of length N.
@@ -92,7 +92,7 @@ $$ \exists_{\nu - probability \; distribution} \forall_{i, j \in S} \lim_{n \to 
 
 <i>then</i>
 
-$$\forall_{\alpha - probability \; distribution} \; X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu$$
+$$\forall_{\alpha - probability \; distribution} \; X_0 \sim \alpha \Rightarrow X_n \overset{d}{\rightarrow} \nu.$$
 
 <br> 
 <div align="justify">
@@ -103,7 +103,7 @@ In practice we use log-probabilities instead of probabilities <b>&#960;</b><sub>
 
 ## Exploration
 <div align="justify">
-In this section we discuss our studies on algorithm and probabilistic approach of decoding the crypted messages. We aim to identify limitations, characteristics and qualities depending on the factors such as message length, language corpus length, initial starting key and language group.
+In this section, we discuss our studies on the algorithm and the probabilistic approach of decoding the encrypted messages. We aim to identify limitations, characteristics and qualities depending on factors such as message length, language corpus length, initial starting key and language group.
 </div>
 
 ### 1. Quality of decryption regarding text length and corpus length
@@ -146,7 +146,7 @@ Numeric solutions ratio decreases with corpus length. For small corpora most of 
 
 #### Close versus Numeric
 <div align="justify">
-We faced an anomaly of having tremendous ratio of close solutions for small corpus (250k). The intuition says that this metric should increase with corpus' size. The explanation is that not every close solution is actually close to the original message. Because by close we mean similar likelihood score we do not actually measure whether the solution is readable by a human. It turns out that for smaller corpora numeric solutions have better scores than original messages (see 100k characters corpus). The explanation of phenomena of having about 0.80 close solutions ratio for corpus of length 250k is that in this case original solution's score was similar to numeric solutions scores. We can see that we often ended in numeric solutions (with ratio about 0.78). For bigger corpora numeric solutions have lower score than the original message, so solutions classified as close are indeed easy to understand by a human. 
+We faced an anomaly of having tremendous ratio of close solutions for small corpus (250k). Intuitively the values of this metric should increase with corpus' size. The explanation is that not every close solution is actually close to the original message. Because by close we mean similar likelihood score we do not actually measure whether the solution is readable by a human. It turns out that for smaller corpora numeric solutions have better scores than original messages (see 100k characters corpus). The explanation of the phenomena of having about 0.80 close solutions ratio for corpus of length 250k is that in this case original solution's score was similar to numeric solutions scores. We can see that we often ended in numeric solutions (with ratio about 0.78). For bigger corpora numeric solutions have lower score than the original message, so solutions classified as close are indeed easy to understand by a human. 
 </div>
 <br>
 <div align="justify">
@@ -160,11 +160,11 @@ For example using the whole corpus, numeric solutions score fluctuated about -22
 
 ### 2. Frequency based initial decoding key
 <div align="justify">
-We were trying to improve the algorithm's performance by specifying starting encryption key instead of using a random one. If we were trying to decode the message without help of Monte Carlo methods we would probably find the most common letter in the deciphered text and substitute it with the most common letter in the language. We would do the same for second most common, third and so on. Here we made use of both heuristic and probabilistic approach.
+We were trying to improve the algorithm's performance by specifying starting encryption key instead of using a random one. If we were trying to decode the message without the help of Monte Carlo methods we would probably find the most common letter in the deciphered text and substitute it with the most common letter in the language. We would do the same for the second most common, the third and so on. Here we made use of both heuristic and probabilistic approach.
 <br><br>
-For this approach to work we need a message that is long enough to contain letter frequencies structure similar to the language. In our study we used text of about 500 characters.
+For this approach to work, we need a message that is long enough to reflect letter frequencies structure similar to the language. In our study we used text of about 500 characters.
 <br><br>
-An image below presents the comparsion of each character frequency in the corpus and encoded message.
+An image below presents the comparsion of each character frequency in both the corpus and the encoded message.
 </div>
 <br>
 
@@ -175,9 +175,9 @@ An image below presents the comparsion of each character frequency in the corpus
 </center>
 
 <div align="justify">
-We can see very similar shape for both message and language corpus.
+We can see very a similar shape on both plots.
 <br><br>
-In this case we would run algorithm with starting encryption key presented in the table (character "_" means space).
+In this case we would run the algorithm with starting encryption key presented in the table (character "_" means space).
 </div>
 <br>
 
@@ -191,16 +191,16 @@ In this case we would run algorithm with starting encryption key presented in th
 
 <br>
 <div align="justify">
-When using default implementation, the one with random starting key, we sometimes ended in numeric solutions. It is a problem, because if we already are in such solution it is very difficult to leave it. That is because numbers are very likely to appear together and proposing change from number to letter is almost never accepted as it lowers the score the algorithm use to measure soultion's quality.
+When using default implementation, the one with a random starting key, we sometimes ended up with numeric solutions. This is a problem, because if we already are in such solution it is very difficult to leave it. That is because numbers are very likely to appear together and a change from number to letter is not always accepted because it lowers the score the algorithm uses to evaluate the soultion's quality.
 <br><br>
-With frequency based approach we dramatically decrease chance of getting to such wrong solution as we start with probable one, the one that is not encoded to numbers (unless original message was numeric).
+With frequency based approach we dramatically decrease the chance of getting to such wrong solution as we start off with a probable one. The one that is not encoded to numbers (unless the original message was numeric).
 <br>
 </div>
 
 #### Results
 
 <div align="justify">
-Below we present the results of running algorithm 50 times with and without improvement.
+Below we present the results of running the algorithm 50 times with and without improvement.
 </div>
 <br>
 
@@ -211,9 +211,9 @@ Below we present the results of running algorithm 50 times with and without impr
 </center>
 
 <div align="justify">
-We can see that initial log-likelihood score, here about -1700, is much better in the improved version. It is also bigger than numeric solution scores which in this experiment range from -2200 to -2600.
+We can see that, for the improved version, the initial log-likelihood score, approximately -1700, is much higher than for the default version. It is also higher than the numeric solutions' scores which in this experiment range from -2200 to -2600.
 <br><br>
-We also got much better ratio of close solutions (with trust level of 0.1). With random starting encryption key we've got <b>0.46</b> close solutions while with frequency based strategy this ratio increased by 0.30 reaching <b>0.76</b>. It means that, as humans, we were able to read and understand the decoded message three out of four times.
+We also got a much better ratio of close solutions (with trust level of 0.1). With random starting encryption key we've got <b>0.46</b> close solutions while with frequency based strategy this ratio increased by 0.30 reaching <b>0.76</b>. It means that, as humans, we were able to read and understand the decoded message three out of four times.
 </div>
 
 ### 3. Quality of decryption depending on the language group
@@ -229,7 +229,7 @@ We thought it would be interesting to see if changing the language would influen
 <li>Hungarian (Finno-Ugric)</li>
 </ol>
 
-We created the corpora for these languages by reading Wikipedia pages on various topic such as geography, music, politics etc. Then we created probability dictionaries based on fragments of the corpora of the same length. 
+We created the corpora for these languages by reading Wikipedia pages on various topics such as geography, music, politics etc. Then we created probability dictionaries based on fragments of the corpora of the same length. 
 
 For this section we have to redefine what a close solution is.
 
