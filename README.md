@@ -131,7 +131,7 @@ $$\beta_n \leq \frac{ln(n)}{\Delta}.$$
 <i>Where &Delta; is the maximum absolute difference between the values of <b>H</b>. Lets matrix <b>P</b><sub>n</sub> be the transition matrix from the Metropolis-Hastings algorithm for the stationary distribution <b>&pi;</b><sup>&beta;<sub>n</sub></sup>. Then
 </i></div>
 
-$$\forall_{\nu - probability \space distribution}\lim_{n \to \infty} \lVert\nu P_1P_2\ldots P_n - \pi\|_{TV} = 0,$$
+$$\forall_{\nu - probability \space distribution}\lim_{n \to \infty} \left\lVert \nu P_1P_2\ldots P_n - \pi \right\lVert_{TV} = 0,$$
 
 <div align="justify">
 <i>Where <b>&pi;</b> is defined in <b>Lemma 1</b>.
