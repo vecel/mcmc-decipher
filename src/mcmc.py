@@ -400,3 +400,14 @@ def eval_close_solutions_lw(text: str, all_solutions: list[str], trust_level: fl
         if is_close_solution_lw(text, solution, trust_level):
             close += 1
     return close / total
+
+def eval_solution_lw(text, solutions):
+    scores = []
+    n = len(solutions[0])
+    for solution in solutions:
+        correct = 0
+        for i in range(n):
+            if text[i] == solution[i]:
+                correct += 1
+        scores.append(correct/n)
+    return scores
