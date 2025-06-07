@@ -122,10 +122,10 @@ Where <b>M</b> is the set of global maxima of <b>H</b>.
 
 <div align="justify">
 <b><i>Ergodic Theorem for non-homogenous Markov Chains</b><br> 
-Let (&#946;)<sub>n</sub> be a cooling plan
+Let (&#946;)<sub>n</sub> be an increasing (does not need to be strictly increasing) cooling plan
 </i></div>
 
-$$\beta_n \leq \frac{ln(n)}{\Delta}.$$
+$$\beta_n \leq \frac{ln(n)}{\Delta} \space \space \lim_{n \to \infty}\beta_{n} = \infty.$$
 
 <div align="justify">
 <i>Where &Delta; is the maximum absolute difference between the values of <b>H</b>. Lets matrix <b>P</b><sub>n</sub> be the transition matrix from the Metropolis-Hastings algorithm for the stationary distribution <b>&pi;</b><sup>&beta;<sub>n</sub></sup>. Then
@@ -136,7 +136,7 @@ $$\forall_{\nu - probability \space distribution}\lim_{n \to \infty} \left\lVert
 <div align="justify">
 <i>Where <b>&pi;</b> is defined in <b>Lemma 1</b>.
 </i><br><br>
-We apply the theory above to obtain a decoded text maximizing the loglikelihood function. Same intuition, as with the plain Metropolis-Hastings, applies. We hope that the most probable text will be the real message.
+We apply the theory above to obtain a decoded text maximizing the log-likelihood function. Same intuition, as with the plain Metropolis-Hastings, applies. We hope that the most probable text will be the real message.
 </div>
 
 ## Exploration
@@ -258,8 +258,62 @@ We carried out experiment for five different texts of lengths about 500 characte
 </div>
 
 ### 3. Simulated annealing approach
+<div align="justify">
+In this section we try to find the best cooling plan and then compare the simulated annealing approach with the classic Metropolis-Hastings algorithm.<br><br>
+
+<b><i>Observation</b> 
+The Metropolis-Hastings algorithm, in this case, is a special case of the simulated annealing with the cooling plan being a constant sequence equal to 1.</i> 
+<br>
+</div>
+
 #### Cooling plan
+<div align="justify">
+We decided to test some different cooling plans and see which one gives the best convergence. We tested a logarithmic, linear and exponential cooling plan.
+<br>
+
+<ol>
+<li> &beta;<sub>n</sub> = ln(n + 1) + 100
+<li> &beta;<sub>n</sub> = 0.1(n + 1)
+<li> &beta;<sub>n</sub> = (1.01)<sup>n</sup>
+</ol>
+
+Each value in the heating plan was repeated two times.
+
+Image below shows the log-likelihood score every 500 iterations over 50 attempts of decoding. We started each decoding attempt with a frequency-based encryption key.
+</div>
+
+<div align="center">
+<img src="images/cooling_plans.png">
+</div>
+
+<div align="justify">
+<br>
+There are no major differences beetween the those, so we decided not to explore any more cooling plans. For further analisys we picked the exponential plan because it seems to be converging a little bit quicker.
+</div>
+
 #### Comparison with plain Metropolis-Hastings
+<div align="justify">
+We tested if the simulated annealing approach gives more readable solutions in a shorter time. Image below shows mean correct characters ratio every 500 iterations. The experiment was held over 100 attempts of decoding with a frequency-based initial decoding key.
+</div><br>
+
+<div align="center">
+<img src="images/MH_vs_SA_rep2.png">
+</div><br>
+
+<div align="justify">
+We can see that initially the simulated annealing algorithm gives better results but after some time the score stabilizes. After many iterations the Metropolis-Hastings algorithm gives more high quality results. The reason for that may be that the original message is not necessarily a global maximum but it is very close. The Metropolis-Hastings algorithm returns a sample from <b>&pi;</b> so it often gives very probable messages but not always the most probable messages.<br><br>
+
+We also tried to speed up and slow down the cooling to see if that is the issue. We repeated the same experiment for the same cooling plan but with each value appearing only once and with values repeated three times (previously tested plan had each value repeated two times).<br><br>
+The results are very similar.
+</div>
+
+<div align="center">
+<b> Faster plan </b>
+<img src="images/MH_vs_SA_rep1.png">
+<br><br>
+<b> Slower plan </b>
+<img src="images/MH_vs_SA_rep3.png"><br>
+</div>
 
 ### 4. Quality of decryption depending on the language group
 <div align="justify">
