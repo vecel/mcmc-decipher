@@ -308,12 +308,16 @@ The results are very similar.
 </div>
 
 <div align="center">
-<figure>
-  <figcaption><b> Faster plan </b></figcaption>
-    <img src="images/MH_vs_SA_rep1.png">
-</figure>
+<b> Faster plan </b>
+</div>
+<div align="center">
+<img src="images/MH_vs_SA_rep1.png">
+</div>
 <br><br>
+<div align="center">
 <b> Slower plan </b>
+</div>
+<div align="center">
 <img src="images/MH_vs_SA_rep3.png"><br>
 </div>
 
