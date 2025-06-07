@@ -122,7 +122,7 @@ Where <b>M</b> is the set of global maxima of <b>H</b>.
 
 <div align="justify">
 <b><i>Ergodic Theorem for non-homogenous Markov Chains</b><br> 
-Let (&#946;)<sub>n</sub> be a heating plan
+Let (&#946;)<sub>n</sub> be a cooling plan
 </i></div>
 
 $$\beta_n \leq \frac{ln(n)}{\Delta}.$$
@@ -257,7 +257,11 @@ We carried out experiment for five different texts of lengths about 500 characte
 <img src="images/frequency_based_dict_close_solutions.png">
 </div>
 
-### 3. Quality of decryption depending on the language group
+### 3. Simulated annealing approach
+#### Cooling plan
+#### Comparison with plain Metropolis-Hastings
+
+### 4. Quality of decryption depending on the language group
 <div align="justify">
 We thought it would be interesting to see if changing the language would influence the quality of decryption. We considered representatives of five different language groups.
 <br><br>
@@ -310,9 +314,6 @@ Table below shows close solutions ratios for different trust levels. Ratios were
 
 </div>
 
-### 4. Simulated annealing approach
-#### Heating plan
-#### Comparison with plain Metropolis-Hastings
 ### Sources
 1. https://medium.com/data-science/breaking-the-enigma-code-in-python-with-mcmc-marvel-themed-9ceb358dd8ae
 2. https://github.com/JackWillz/Projects/tree/master/MCMC%20-%20Enigma%20Thanos
