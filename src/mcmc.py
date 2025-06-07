@@ -55,13 +55,14 @@ def eval_proposal(proposed_score: float, current_score: float):
     ratio = math.exp(diff)
     return ratio >= 1 or ratio > np.random.uniform(0,1)
 
-def eval_proposal_heat(proposed_score: float, current_score: float, beta: float):
+def eval_proposal_SA(proposed_score: float, current_score: float, beta: float):
     """
     Evaluates whether a proposed decryption should be accepted in the simulated annealing process.
 
     Args:
         proposed_score (float): Log-likelihood of the proposed decoding.
         current_score (float): Log-likelihood of the current decoding.
+        beta (float): 1/temperature.
 
     Returns:
         bool: True if the proposal is accepted, False otherwise.
@@ -134,7 +135,7 @@ def decode_MCMC(encoded_text: str, perc_dict: dict, iters: int, encryption_dict:
 
     return current_dict, best_score, best_text
 
-def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str], repeat = 1, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
+def decode_MCMC_SA(encoded_text: str, perc_dict: dict, cooling_plan: list[str], repeat = 1, encryption_dict: dict | None = None, alphabet: str = ALPHABET, verbose: bool = False):
     """
     Attempts to decode a substitution cipher using a simulated annealing approach.
 
@@ -142,7 +143,8 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
         encoded_text (str): The ciphertext to be decoded.
         perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
                           typically created from a language corpus using `create_perc_dict()`.
-        heating_plan (list): Heating plan for the simulated annealing.
+        cooling_plan (list): Cooling plan for the simulated annealing.
+        repeat (int): An integer specifying if each item in the heating plan should be repeated.
         encryption_dict (dict): An encryption dictionary used as the starting point for the
                                 algorithm. If not specified the random one will be used.
         alphabet (str): The character set used in the cipher and language model.
@@ -156,8 +158,8 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
             - best_text (list): List of corresponding decrypted texts
     """
     if repeat > 1:
-        heating_plan = [beta for beta in heating_plan for _ in range(repeat)]
-    iters = len(heating_plan)
+        cooling_plan = [beta for beta in cooling_plan for _ in range(repeat)]
+    iters = len(cooling_plan)
     best_score = []
     best_text = []
     
@@ -174,7 +176,7 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
         proposed_decrypted = decode(encoded_text, proposed_dict)
         proposed_score = score_likelihood(proposed_decrypted, perc_dict)
     
-        if eval_proposal_heat(proposed_score, current_score, heating_plan[i]):
+        if eval_proposal_SA(proposed_score, current_score, cooling_plan[i]):
             current_dict = proposed_dict
             current_score = proposed_score
             current_decrypted = proposed_decrypted
@@ -192,7 +194,7 @@ def decode_MCMC_heat(encoded_text: str, perc_dict: dict, heating_plan: list[str]
             
     return current_dict, best_score, best_text
 
-def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, option = "default", encryption_dict: dict | None = None, alphabet: str = ALPHABET, heating_plan: list[str] | None = None, repeat: int = 1):
+def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: int, option: str = "default", encryption_dict: dict | None = None, alphabet: str = ALPHABET, cooling_plan: list[str] | None = None, repeat: int = 1):
     """
     Perform multiple decoding attempts using a Markov Chain Monte Carlo (MCMC) method.
 
@@ -202,9 +204,13 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
         perc_dict (dict): A nested dictionary of log-probabilities for character transitions,
                           typically created from a language corpus using `create_perc_dict()`.
         iters (int): The number of iterations to run the MCMC algorithm.
+                     Will be ignored if option = 'annealing'.
+        option (str): Specifies the decoding method ('default' for Metropolis-Hastings, 'annealing' for simulated annealing).             
         encryption_dict (dict): An encryption dictionary used as the starting point for the
                                 algorithm. If not specified the random one will be used.
         alphabet (str, optional): The alphabet used for encoding/decoding. Defaults to ALPHABET.
+        cooling_plan (list): A list defining the 1/temperature schedule for simulated annealing.
+        repeat (int): An integer specifying if each item in the heating plan should be repeated.
 
     Returns:
         tuple:
@@ -217,10 +223,10 @@ def cross_validation(attempts: int, encoded_text: str, perc_dict: dict, iters: i
     all_scores = []
     all_samples = []
     if option == "annealing":
-        iters = len(heating_plan)
+        iters = len(cooling_plan)
     for i in range(attempts):
         if option == "annealing":
-            _, scores, samples = decode_MCMC_heat(encoded_text, perc_dict, heating_plan, repeat=repeat, encryption_dict=encryption_dict, alphabet=alphabet)
+            _, scores, samples = decode_MCMC_SA(encoded_text, perc_dict, cooling_plan, repeat=repeat, encryption_dict=encryption_dict, alphabet=alphabet)
         else:    
             _, scores, samples = decode_MCMC(encoded_text, perc_dict, iters, encryption_dict=encryption_dict, alphabet=alphabet)
         all_scores.append(scores)
@@ -401,7 +407,18 @@ def eval_close_solutions_lw(text: str, all_solutions: list[str], trust_level: fl
             close += 1
     return close / total
 
-def eval_solution_lw(text, solutions):
+def eval_solution_lw(text: str, solutions: list[str]):
+    """
+    Evaluate the accuracy of multiple decoded solutions against a reference text.
+
+    Args:
+        text (str): The reference text to compare against.
+        solutions (str): A list of decoded messages to evaluate.
+
+    Returns:
+        list: A list of accuracy scores, each representing the proportion
+              of correctly matched characters.
+    """                   
     scores = []
     n = len(solutions[0])
     for solution in solutions:
